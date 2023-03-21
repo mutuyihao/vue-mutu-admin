@@ -7,12 +7,13 @@ import 'vfonts/Lato.css'
 // 引入等宽字体
 import 'vfonts/FiraCode.css'
 import App from './App.vue'
-// import router from './router'
-
-
+import router from './router'
+import { getData } from './api'
+// import naive from 'naive-ui'
 const app = createApp(App)
 
 // app.use(createPinia())
-// app.use(router)
+app.use(router)
 
 app.mount('#app')
+// app.use(naive)

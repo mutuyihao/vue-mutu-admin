@@ -8,6 +8,12 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // build: {
+  //   rollupOptions: { output: { experimentalLogSideEffects:true,experimentalMinChunkSize: 5000 } }
+  // },
+  build: {
+    rollupOptions: { output: { manualChunks: { ['axios']: ['axios'],['pinia']:['pinia'] } } }
+  },
   plugins: [
     vue(),
     AutoImport({
