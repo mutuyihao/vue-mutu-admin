@@ -1,12 +1,13 @@
 <script setup lang="ts">
-
+import { themeOverrides } from './theme'
 </script>
 
 <template>
     <div id="app">
+        <n-config-provider :theme-overrides="themeOverrides">
+            <router-view></router-view>
+        </n-config-provider>
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
