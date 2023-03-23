@@ -1,18 +1,68 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
-const routes: any[] = [
-    {
-        name: 'login',
-        path: '/login',
-        component: () => import('@/views/login/login.vue'),
-        meta:{
-            title:"登录"
-        }
-    }
+import type { RouteRecordRaw, RouteRecordName } from 'vue-router'
+import { systemRoutes } from './system'
+import layout from '@/layout/layout.vue'
+
+// 注入系统固定路由
+const routes: RouteRecordRaw[] = [
 ]
+// 
+interface someType {
+    routes: RouteRecordRaw[]
+}
+let dynamicRoutes: RouteRecordRaw[] = []
+systemRoutes.map((item) => routes.push(item))
+async function importModules() {
+    const modules = await import.meta.glob("./modules/*.ts", { eager: true })
+    for (const path in modules) {
+        const module = modules[path] as someType
+        module.routes.map((item) => dynamicRoutes.push(item))
+    }
+}
+await importModules()
+
 const router = createRouter({
-    history:createWebHistory(),
+    history: createWebHistory(),
     routes,
 })
+
+function filterDynamicRoutes(item: RouteRecordRaw, root?: RouteRecordName) {
+    let rootName = item.name as RouteRecordName
+    let {...tempItem} = {...item}
+    // tempItem.children=[]
+    if (root) {
+        router.addRoute(root, item)
+    } else {
+        router.addRoute(tempItem)
+    }
+    // if (item.children && item.children!.length > 0) {
+    //     item.children.map((child) => {
+    //         filterDynamicRoutes(child, rootName)
+    //     })
+    // }
+}
+
+let isAddDynamicRoutes = false
+// 设置路由前置守卫
+router.beforeEach((to, from, next) => {
+    // 设置网页标题
+
+    let defaultTitle = "Mutu Admin"
+    document.title = (to.meta.title ? to.meta.title + "—" : "") + defaultTitle
+
+    if (!isAddDynamicRoutes) {
+        dynamicRoutes.map((item) => {
+            filterDynamicRoutes(item)
+        })
+        isAddDynamicRoutes = true
+        if (to.matched.length == 0) {
+            router.push(to.fullPath);
+        }
+        next()
+        return false
+    }
+    next()
+})
+export {dynamicRoutes,systemRoutes}
 export default router
 

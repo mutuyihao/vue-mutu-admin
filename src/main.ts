@@ -8,12 +8,9 @@ import 'vfonts/Lato.css'
 import 'vfonts/FiraCode.css'
 import App from './App.vue'
 import router from './router'
-import { getData } from './api'
-// import naive from 'naive-ui'
-const app = createApp(App)
 
-// app.use(createPinia())
+const app = createApp(App)
+app.use(createPinia())
 app.use(router)
 
-app.mount('#app')
-// app.use(naive)
+router.isReady().then(() => app.mount('#app'))
