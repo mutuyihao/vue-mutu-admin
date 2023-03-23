@@ -66,6 +66,6 @@ router.beforeEach((to, from, next) => {
     }
     next()
 })
-export {dynamicRoutes,systemRoutes}
+export {dynamicRoutes,systemRoutes,specialRoutes}
 export default router
 

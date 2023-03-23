@@ -8,10 +8,12 @@ import '@/assets/css/main.css'
 // import 'vfonts/FiraCode.css'
 import App from './App.vue'
 import router from './router'
+import { useMessage } from 'naive-ui'
 
 const app = createApp(App)
 app.use(createPinia())
 app.use(router)
-
-// router.isReady().then(() => app.mount('#app'))
+app.use(useMessage)
 app.mount('#app')
+
+

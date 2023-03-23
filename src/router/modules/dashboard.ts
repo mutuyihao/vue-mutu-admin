@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [{
     component: layout,
     redirect:"/dashboard/console",
     meta: {
-        title: "主页",
+        title: "Dashboard",
         icon:()=>renderIcon(DashboardOutlined)
     },
     children: [{
