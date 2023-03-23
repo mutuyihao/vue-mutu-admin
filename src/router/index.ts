@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw, RouteRecordName } from 'vue-router'
-import { systemRoutes } from './system'
+import { systemRoutes,specialRoutes } from './system'
 import layout from '@/layout/layout.vue'
 
 // 注入系统固定路由
@@ -12,15 +12,15 @@ interface someType {
 }
 let dynamicRoutes: RouteRecordRaw[] = []
 systemRoutes.map((item) => routes.push(item))
-async function importModules() {
-    const modules = await import.meta.glob("./modules/*.ts", { eager: true })
+
+function importModules() {
+    const modules = import.meta.glob("./modules/*.ts", { eager: true })
     for (const path in modules) {
         const module = modules[path] as someType
         module.routes.map((item) => dynamicRoutes.push(item))
     }
 }
-await importModules()
-
+importModules()
 const router = createRouter({
     history: createWebHistory(),
     routes,
@@ -53,6 +53,9 @@ router.beforeEach((to, from, next) => {
     if (!isAddDynamicRoutes) {
         dynamicRoutes.map((item) => {
             filterDynamicRoutes(item)
+        })
+        specialRoutes.map((item)=>{
+            router.addRoute(item)
         })
         isAddDynamicRoutes = true
         if (to.matched.length == 0) {

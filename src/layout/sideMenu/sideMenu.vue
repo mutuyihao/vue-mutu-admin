@@ -28,6 +28,7 @@ function filterMenus(item: RouteRecordRaw, root?: RouteRecordRaw) {
             }
         })
     } else {
+        tmpitem.label=() => h("div",item.name),
         tmpitem.children = []
         menuOptions.push(tmpitem)
     }
