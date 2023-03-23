@@ -41,6 +41,25 @@ const specialRoutes: RouteRecordRaw[] = [
             },
         ]
     },
+    {
+        name: '403',
+        path: '/403',
+        component: layout,
+        redirect: '/403',
+        meta: {
+            title: "403"
+        },
+        children: [
+            {
+                name: '403',
+                path: '/403',
+                component: () => import('@/views/special/403.vue'),
+                meta: {
+                    title: "403"
+                }
+            },
+        ]
+    }
     
 ]
 export { systemRoutes,specialRoutes }
