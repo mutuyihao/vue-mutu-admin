@@ -3,6 +3,9 @@ import type { RouteRecordRaw, RouteRecordName } from 'vue-router'
 import { systemRoutes,specialRoutes } from './system'
 import layout from '@/layout/layout.vue'
 
+import  NProgress  from 'nprogress'
+import '@/assets/css/nprogress.css'
+
 // 注入系统固定路由
 const routes: RouteRecordRaw[] = [
 ]
@@ -61,10 +64,16 @@ router.beforeEach((to, from, next) => {
         if (to.matched.length == 0) {
             router.push(to.fullPath);
         }
+        NProgress.start()
         next()
         return false
     }
+    NProgress.start()
     next()
+})
+router.afterEach(()=>{
+    NProgress.done()
+    
 })
 export {dynamicRoutes,systemRoutes,specialRoutes}
 export default router

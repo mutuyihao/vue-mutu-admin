@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img width="150" style="margin-top:20px;" src="@/assets/img/logo.png" alt="logo">
+        <img class="logo-side"  width="150" height="23.11" src="@/assets/img/logo.png" alt="logo">
         <!-- :value="'console'" :expanded-keys="openKey" -->
 
         <n-menu :indent="12" :accordion="false" :options="menuOptions"></n-menu>
@@ -48,7 +48,9 @@ routes.map((item) => {
 </script>
 
 <style scoped>
-.n-menu--collapsed {
-    /* padding-left: 16px; */
+.logo-side{
+    width:150;
+    height:23.11;
+    margin-top:20px;
 }
 </style>

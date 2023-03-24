@@ -7,8 +7,7 @@
             <sideMenu></sideMenu>
         </n-layout-sider>
         <n-layout style="height:100vh;display:flex;" content-style="width:100%">
-            <n-layout-header :position="'static'">
-                321
+            <n-layout-header :position="'static'" class="flex-column-center" style="height:61.66px;align-items: space-between;">
                 <div>
                     <div></div>
                     <div></div>
