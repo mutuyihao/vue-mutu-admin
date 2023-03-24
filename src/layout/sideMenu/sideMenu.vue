@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img class="logo-side"  width="150" height="23.11" src="@/assets/img/logo-side.png" alt="logo">
+        <img class="logo-side" width="150" height="23.11" src="@/assets/img/logo-side.png" alt="logo">
         <!-- :value="'console'" :expanded-keys="openKey" -->
 
         <n-menu :indent="12" :accordion="false" :options="menuOptions"></n-menu>
@@ -8,49 +8,51 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, h, onMounted,getCurrentInstance } from 'vue'
-import { dynamicRoutes, systemRoutes,specialRoutes } from '@/router'
+import { reactive, h, onMounted } from 'vue'
+import { dynamicRoutes, systemRoutes, specialRoutes } from '@/router'
 import { type RouteRecordRaw, type RouteRecordName, RouterLink } from 'vue-router'
 import type { MenuOption } from 'naive-ui'
+
 let openKey = ['dashboard', 'console']
-let routes = dynamicRoutes.concat(specialRoutes)
 // let routes = dynamicRoutes
 let menuOptions = reactive([]) as MenuOption[]
-function filterMenus(item: RouteRecordRaw, root?: RouteRecordRaw) {
-    let parent = root
-    let { ...tempItem } = { ...item }
-    let tmpitem = {
-        key: item.name as string,
-        label: () => h(RouterLink, { to: { name: item.name, } }, { default: () => item.meta?.title }),
+
+let routes = dynamicRoutes.concat(specialRoutes)
+routes.map((item) => {
+    filterMenus(item)
+})
+function filterMenus(item: any, parent?: any) {
+    let menuItem: MenuOption = {
+        label: () => h(RouterLink, { to: { name: item.name } }, { default: () => item.meta?.title }),
+        key: item.name,
         icon: item.meta?.icon,
+        children: [],
     }
     if (parent) {
-        menuOptions.map((item1) => {
-            if (item1.key == parent?.name) {
-                item1.children?.push(tmpitem)
+        menuOptions.map((root) => {
+            console.log(root, parent)
+
+            if (root.key == parent.name) {
+
+                root.children?.push(menuItem)
             }
         })
     } else {
-        tmpitem.label = () => h("div", item.meta?.title),
-            tmpitem.children = []
-        menuOptions.push(tmpitem)
+        menuItem.label = () =>  h('div',null, item.meta?.title)
+        menuOptions.push(menuItem)
     }
-    if (item.children && item.children!.length > 0) {
-
-        item.children.map((child) => {
+    if (item.children && item.children.length > 0) {
+        item.children.map((child: any) => {
             filterMenus(child, item)
         })
     }
 }
-routes.map((item) => {
-    filterMenus(item)
-})
 </script>
 
 <style scoped>
-.logo-side{
-    width:150;
-    height:23.11;
-    margin-top:20px;
+.logo-side {
+    width: 150;
+    height: 23.11;
+    margin-top: 20px;
 }
 </style>

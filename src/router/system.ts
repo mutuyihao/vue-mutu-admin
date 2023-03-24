@@ -24,8 +24,8 @@ const systemRoutes: RouteRecordRaw[] = [
 ]
 const specialRoutes: RouteRecordRaw[] = [
     {
-        name: '404',
-        path: '/:catch(.*)',
+        name: '异常页面',
+        path: '/:catch(.*)*',
         component: layout,
         redirect: '/404',
         meta: {

@@ -30,19 +30,12 @@ const router = createRouter({
 })
 
 function filterDynamicRoutes(item: RouteRecordRaw, root?: RouteRecordName) {
-    let rootName = item.name as RouteRecordName
     let {...tempItem} = {...item}
-    // tempItem.children=[]
     if (root) {
         router.addRoute(root, item)
     } else {
         router.addRoute(tempItem)
     }
-    // if (item.children && item.children!.length > 0) {
-    //     item.children.map((child) => {
-    //         filterDynamicRoutes(child, rootName)
-    //     })
-    // }
 }
 
 let isAddDynamicRoutes = false
