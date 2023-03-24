@@ -30,8 +30,7 @@ function filterMenus(item: any, parent?: any) {
     }
     if (parent) {
         menuOptions.map((root) => {
-            console.log(root, parent)
-
+            delete menuItem.children
             if (root.key == parent.name) {
 
                 root.children?.push(menuItem)
