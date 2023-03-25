@@ -1,7 +1,7 @@
 <template>
     <div class="headerBar-main">
         <div class="flex-center">
-            <NIcon size="1.5rem">
+            <NIcon size="1.5rem" @click="$emit('handleCollapse')">
                 <MenuFoldOutlined  class="fold-btn" v-show="!isCollapsed" />
                 <MenuUnfoldOutlined class="fold-btn" v-show="isCollapsed" />
             </NIcon>
