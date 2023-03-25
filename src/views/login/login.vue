@@ -21,7 +21,7 @@
                 <n-tab-pane name="signin" tab="登录">
                     <n-form ref="loginFormRef" :model="loginForm" :rules="rules1">
                         <n-form-item-row path="account" label="账号">
-                            <n-input placeholder="请输入账号" :autofocus="true" v-model:value="loginForm.account"
+                            <n-input clearable placeholder="请输入账号" :autofocus="true" v-model:value="loginForm.account"
                                 @keydown.enter.prevent>
                                 <template #prefix>
                                     <n-icon size="18" color="#808695">
@@ -31,7 +31,7 @@
                             </n-input>
                         </n-form-item-row>
                         <n-form-item-row path="password" label="密码">
-                            <n-input placeholder="请输入密码" type="password" showPasswordOn="click"
+                            <n-input  placeholder="请输入密码" type="password" showPasswordOn="click" clearable
                                 v-model:value="loginForm.password" @keydown.enter.prevent>
                                 <template #prefix>
                                     <n-icon size="18" color="#808695">

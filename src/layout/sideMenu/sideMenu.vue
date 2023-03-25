@@ -52,6 +52,5 @@ function filterMenus(item: any, parent?: any) {
 .logo-side {
     width: 150;
     height: 23.11;
-    margin-top: 20px;
 }
 </style>
