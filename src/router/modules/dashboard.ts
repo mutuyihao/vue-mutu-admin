@@ -2,7 +2,6 @@ import layout from '@/layout/layout.vue'
 import console from '@/views/dashboard/console.vue'
 import {renderIcon} from '@/utils'
 import {DashboardOutlined} from '@vicons/antd'
-
 import type { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [{
     name: "dashboard",

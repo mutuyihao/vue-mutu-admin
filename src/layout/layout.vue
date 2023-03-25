@@ -8,12 +8,13 @@
         </n-layout-sider>
         <n-layout style="height:100vh;display:flex;" content-style="width:100%">
             <n-layout-header :position="'static'" class="layout-header flex-column-center" style="">
-                <header-bar @updateView="reload" @handleCollapse="isCollapsed=!isCollapsed" v-bind:is-collapsed="isCollapsed"></header-bar>
+                <header-bar @updateView="reload" @handleCollapse="isCollapsed = !isCollapsed"
+                    v-bind:is-collapsed="isCollapsed"></header-bar>
             </n-layout-header>
             <n-layout-content class="content" style="flex:1"
                 content-style="width:100%;max-height:100vh;display:flex;padding: 24px;background-color: #DCD9D4;background-image: linear-gradient(135deg, #f5f7fa 0%, var(--main-color) 100%)">
                 <div style="flex:1">
-                    <router-view v-show="showView" ></router-view>
+                    <router-view v-if="showView"></router-view>
                 </div>
             </n-layout-content>
         </n-layout>
@@ -21,14 +22,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref} from 'vue'
 import sideMenu from './sideMenu/sideMenu.vue'
 import headerBar from './headerBar/headerBar.vue'
 const isCollapsed = ref(false)
 let showView = ref(true)
-function reload(){
-    showView.value=false
-    showView.value=true
+function reload() {
+    showView.value = false
+    setTimeout(() => {
+        showView.value = true
+    }, 300);
 }
 </script>
 
@@ -47,4 +50,5 @@ function reload(){
 
 .content {
     height: calc(100vh - 62px)
-}</style>
+}
+</style>

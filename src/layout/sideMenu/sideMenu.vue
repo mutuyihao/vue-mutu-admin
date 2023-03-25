@@ -21,6 +21,7 @@ let routes = dynamicRoutes.concat(specialRoutes)
 routes.map((item) => {
     filterMenus(item)
 })
+
 function filterMenus(item: any, parent?: any) {
     let menuItem: MenuOption = {
         label: () => h(RouterLink, { to: { name: item.name } }, { default: () => item.meta?.title }),
@@ -52,5 +53,6 @@ function filterMenus(item: any, parent?: any) {
 .logo-side {
     width: 150;
     height: 23.11;
+    margin-top:17px;
 }
 </style>
