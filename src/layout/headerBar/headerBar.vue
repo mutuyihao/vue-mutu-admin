@@ -14,7 +14,9 @@
         <div>
             <n-breadcrumb>
                 <template v-for="item in breadcrumbList">
-                    <n-breadcrumb-item :href="item.path" separator="/">{{ item.meta.title }}</n-breadcrumb-item>
+                    <n-breadcrumb-item  separator="/">
+                        <RouterLink :to="item.path" >{{ item.meta.title }}</RouterLink>
+                    </n-breadcrumb-item>
                 </template>
             </n-breadcrumb>
         </div>

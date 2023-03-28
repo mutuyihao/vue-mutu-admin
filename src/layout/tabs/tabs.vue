@@ -2,8 +2,9 @@
     <div>
         <draggable class="tabs-main flex-center" item-key="name" :list="tabs" :sort="true">
             <template #item="{ element }">
-                <div :key="element.name" @click="handleClickTab(element.fullPath)" class="tab-card flex-center pretendBtn">
-                    <div :class="['normal-tab', { 'active-tab': element.name == route.meta.title }]">
+                <div :key="element.name" @click="handleClickTab(element.fullPath)"
+                    :class="['tab-card', 'flex-center', 'pretendBtn', { 'active-tab': element.name == route.meta.title }]">
+                    <div :class="['normal-tab']">
                         {{ element.name }}
                     </div>
                     <div v-show="element.name != '主控台'" class="flex-center">
@@ -67,20 +68,25 @@ function handleClickTab(path: string) {
 }
 
 .tab-card {
-    font-size: 1rem;
+    font-size: 12px;
     background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px var(--main-color);
     gap: 5px;
     padding: 3px 10px;
 }
+.active-tab  {
+    background-color: #6F95A3;
 
-.normal-tab {
-    color: #e2dfdb;
+    color: white;
 }
-
-.active-tab {
-    color: var(--side-color)
+.active-tab .tab-icon:hover  {
+    color:white;
 }
-
+.active-tab .tab-icon  {
+    color:white;
+    --n-opacity: 0.8 !important;
+}
 .tab-icon:hover {
     /* color:black; */
     --n-opacity: 1 !important;
