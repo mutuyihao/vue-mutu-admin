@@ -1,30 +1,43 @@
 <template>
     <n-layout has-sider class="main">
-        <n-layout-sider :collapsed-width="52" width="10rem" class="layout-sider" :collapse-mode="'width'"
-            @collapse="isCollapsed = true" @expand="isCollapsed = false" :show-trigger="'bar'" :native-scrollbar="false"
+        <n-layout-sider :native-scrollbar="true" :collapsed-width="52" width="10rem" class="layout-sider"
+            :collapse-mode="'width'" @collapse="isCollapsed = true" @expand="isCollapsed = false" :show-trigger="'bar'"
             :position="'static'" :collapsed="isCollapsed"
             content-style="min-height:100vh;padding: 2px;background-color:#8c918b;">
             <sideMenu></sideMenu>
         </n-layout-sider>
-        <n-layout style="height:100vh;display:flex;" content-style="width:100%">
-            <n-layout-header :position="'static'" class="layout-header flex-column-center" style="">
+        <n-layout style="width:100%;height:100vh;display:flex;flex-direction: column;" content-style="width:100%">
+            <n-layout-header :bordered="true" :position="'static'" class="layout-header flex-column-center" style="">
                 <header-bar @updateView="reload" @handleCollapse="isCollapsed = !isCollapsed"
                     v-bind:is-collapsed="isCollapsed"></header-bar>
             </n-layout-header>
-            <n-layout-content class="content" style="flex:1"
-                content-style="width:100%;max-height:100vh;display:flex;padding: 24px;background-color: #DCD9D4;background-image: linear-gradient(135deg, #f5f7fa 0%, var(--main-color) 100%)">
-                <div style="flex:1">
-                    <router-view v-if="showView"></router-view>
+
+            <n-layout-content :native-scrollbar="true" class="content" style="flex:1"
+                content-style="width:100%;display:flex;padding: 0px 12px 1px 12px;background-color: #DCD9D4;background-image: linear-gradient(135deg, #f5f7fa 0%, var(--main-color) 100%)">
+                <div style="width:100%;flex:1">
+                    <div class="layout-viseheader">
+                        <tabs></tabs>
+                    </div>
+                    <div  style="margin-top:5px;width:100%;height:100%;">
+                        <router-view v-if="showView" v-slot="{ Component }">
+                            <keep-alive>
+                                <component :is="Component" />
+                            </keep-alive>
+                        </router-view>
+                    </div>
                 </div>
+
             </n-layout-content>
         </n-layout>
     </n-layout>
 </template>
 
 <script setup lang="ts">
-import { ref} from 'vue'
+import { ref } from 'vue'
 import sideMenu from './sideMenu/sideMenu.vue'
 import headerBar from './headerBar/headerBar.vue'
+import tabs from './tabs/tabs.vue'
+import { tabsDark } from 'naive-ui';
 const isCollapsed = ref(false)
 let showView = ref(true)
 function reload() {
@@ -43,12 +56,20 @@ function reload() {
 }
 
 .layout-header {
-
-    height: 61.66px;
     align-items: space-between;
+    height: 61.66px;
+    box-shadow: 0px 2px 10px rgba(203, 213, 230,.8);
+
+}
+
+.layout-viseheader {
+    width:100%;
+    height: 40px;
 }
 
 .content {
-    height: calc(100vh - 62px)
+    margin-top:5px;
+    min-height: calc(100vh - 67px);
+    height: calc(100vh - 67px);
 }
 </style>

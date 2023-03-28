@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img class="logo-side" width="150" height="23.11" src="@/assets/img/logo-side.png" alt="logo">
+        <img @click="$router.push('/dashboard')" class="logo-side pretendBtn" width="150" height="23.11" src="@/assets/img/logo-side.png" alt="logo">
         <!-- :value="'console'" :expanded-keys="openKey" -->
 
         <n-menu :indent="12" :accordion="false" :options="menuOptions"></n-menu>
