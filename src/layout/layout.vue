@@ -33,19 +33,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref,nextTick } from 'vue'
 import sideMenu from './sideMenu/sideMenu.vue'
 import headerBar from './headerBar/headerBar.vue'
 import tabs from './tabs/tabs.vue'
-import { tabsDark } from 'naive-ui';
+import{ useDebounceFn} from'@vueuse/core'
 const isCollapsed = ref(false)
 let showView = ref(true)
-function reload() {
+let reload = useDebounceFn(()=>{
     showView.value = false
-    setTimeout(() => {
+    nextTick(()=>{
         showView.value = true
-    }, 300);
-}
+    })
+    // setTimeout(() => {
+    //     showView.value = true
+    // }, 200);
+},600)
+
 </script>
 
 <style scoped>
