@@ -3,6 +3,12 @@
 :root{
     --main-color:#c3cfe2;
     --side-color:#001021;
+    --period-day:#18a058;
+    --period-week:#2080f0;
+    --period-month:#f2a020;
+    --period-season:#d03050;
+    --period-year:#b37feb;
+    
 }
 
 .flex-center{

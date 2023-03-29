@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, reactive, ref, onMounted,watch, type VNodeRef } from 'vue';
+import { reactive, ref, onMounted,watch, type VNodeRef } from 'vue';
 import { useRoute, type RouteLocationMatched } from 'vue-router'
 import { MenuFoldOutlined, MenuUnfoldOutlined, ReloadOutlined, GithubOutlined, } from '@vicons/antd'
 import { PersonCircleOutline } from '@vicons/ionicons5'

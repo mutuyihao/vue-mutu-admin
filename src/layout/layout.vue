@@ -13,7 +13,7 @@
             </n-layout-header>
 
             <n-layout-content :native-scrollbar="true" class="content" style="flex:1"
-                content-style="width:100%;display:flex;padding: 0px 12px 0px 12px;background-color: #DCD9D4;background-image: linear-gradient(135deg, #f5f7fa 0%, var(--main-color) 100%)">
+                content-style="width:100%;display:flex;padding: 0px 12px 0px 12px;background-color: #DCD9D4;background-image: linear-gradient(135deg, #f5f7fa 100%, var(--main-color) 100%)">
                 <div style="width:100%;flex:1">
                     <div class="layout-viseheader">
                         <tabs></tabs>
@@ -63,9 +63,9 @@ function reload() {
 }
 
 .layout-viseheader {
-    position:fixed;
+    /* position:fixed; */
     width:100%;
-    height: 40px;
+    /* height: 40px; */
 }
 
 .content {
