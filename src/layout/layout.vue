@@ -4,7 +4,7 @@
             :collapse-mode="'width'" @collapse="isCollapsed = true" @expand="isCollapsed = false" :show-trigger="'bar'"
             :position="'static'" :collapsed="isCollapsed"
             content-style="min-height:100vh;padding: 2px;background-color:#8c918b;">
-            <sideMenu></sideMenu>
+            <sideMenu :collapsed="isCollapsed"></sideMenu>
         </n-layout-sider>
         <n-layout style="width:100%;height:100vh;display:flex;flex-direction: column;" content-style="width:100%">
             <n-layout-header :bordered="true" :position="'static'" class="layout-header flex-column-center" style="">
