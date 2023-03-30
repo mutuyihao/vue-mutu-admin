@@ -4,7 +4,7 @@
             src="@/assets/img/logo-side.png" alt="logo">
         <!-- :value="'console'" :expanded-keys="openKey" -->
         <img class="logo-collapse logo-side pretendBtn" v-show="collapsed" width="24" height="24"  src="@/assets/img/logo-single.png" alt="logo">
-        <n-menu :indent="12" :accordion="false" :options="menuOptions"></n-menu>
+        <n-menu :indent="12" :accordion="true" :options="menuOptions"></n-menu>
     </div>
 </template>
 
