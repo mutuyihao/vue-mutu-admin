@@ -168,9 +168,10 @@ function handleSelect(key: string | number) {
     top: 0;
     right: 0;
     height: 100%;
+    transition:all .3s ease;
+
 }
 .tabs-menu:hover{
     transform:rotate(180deg);
-    transition:all .3s ease;
 }
 </style>
