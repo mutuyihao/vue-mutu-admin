@@ -16,7 +16,7 @@
                 content-style="width:100%;display:flex;padding: 0px 12px 0px 12px;background-color: #DCD9D4;background-image: linear-gradient(135deg, #f5f7fa 100%, var(--main-color) 100%)">
                 <div style="width:100%;flex:1">
                     <div class="layout-viseheader">
-                        <tabs></tabs>
+                        <tabs @updateView="reload"></tabs>
                     </div>
                     <div  style="margin-top:5px;width:100%;height:99%;">
                         <router-view v-if="showView" v-slot="{ Component }">
