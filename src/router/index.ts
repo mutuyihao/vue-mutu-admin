@@ -5,21 +5,21 @@ import layout from '@/layout/layout.vue'
 
 import  NProgress  from 'nprogress'
 import '@/assets/css/nprogress.css'
-
-// 注入系统固定路由
-const routes: RouteRecordRaw[] = [
-]
-// 
-interface someType {
+interface moduleType {
     routes: RouteRecordRaw[]
 }
-let dynamicRoutes: RouteRecordRaw[] = []
+// 初始化系统固定路由
+const routes: RouteRecordRaw[] = [
+]
 systemRoutes.map((item) => routes.push(item))
 
+// 初始化动态路由
+let dynamicRoutes: RouteRecordRaw[] = []
+// 引入动态路由
 function importModules() {
     const modules = import.meta.glob("./modules/*.ts", { eager: true })
     for (const path in modules) {
-        const module = modules[path] as someType
+        const module = modules[path] as moduleType
         module.routes.map((item) => dynamicRoutes.push(item))
     }
 }
