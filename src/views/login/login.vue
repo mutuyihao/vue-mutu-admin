@@ -31,7 +31,7 @@
                             </n-input>
                         </n-form-item-row>
                         <n-form-item-row path="password" label="密码">
-                            <n-input  placeholder="请输入密码" type="password" showPasswordOn="click" clearable
+                            <n-input placeholder="请输入密码" type="password" showPasswordOn="click" clearable
                                 v-model:value="loginForm.password" @keydown.enter.prevent>
                                 <template #prefix>
                                     <n-icon size="18" color="#808695">
@@ -42,7 +42,7 @@
 
                         </n-form-item-row>
                     </n-form>
-                    <n-button @click="handleSubmit" color="#5d80b7" type="primary" block secondary strong>
+                    <n-button @click="login" color="#5d80b7" type="primary" block secondary strong>
                         登录
                     </n-button>
                 </n-tab-pane>
@@ -79,7 +79,7 @@
                             </n-input>
                         </n-form-item-row>
                     </n-form>
-                    <n-button @click="handleSubmit" color="#5d80b7" type="primary" block secondary strong>
+                    <n-button @click="register" color="#5d80b7" type="primary" block secondary strong>
                         注册
                     </n-button>
                 </n-tab-pane>
@@ -170,7 +170,16 @@ const rules1: FormRules = {
 let router = useRouter()
 let route = useRoute()
 
-function handleSubmit() {
+function login() {
+    console.log(window)
+    window.$message.loading("正在登陆中", { duration: 3000 })
+    setTimeout(() => {
+        window.$message.success("登陆成功，正在跳转")
+        router.push("/")
+
+    }, 3000)
+}
+function register() {
     router.push("/")
 }
 </script>

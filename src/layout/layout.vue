@@ -7,48 +7,46 @@
             <sideMenu :collapsed="isCollapsed"></sideMenu>
         </n-layout-sider>
         <n-layout style="width:100%;height:100vh;display:flex;flex-direction: column;" content-style="width:100%">
-            <n-layout-header :bordered="true" :position="'static'" class="layout-header flex-column-center" style="">
+            <n-layout-header :bordered="true" :position="'static'" class="layout-header flex-column-center">
                 <header-bar @updateView="reload" @handleCollapse="isCollapsed = !isCollapsed"
                     v-bind:is-collapsed="isCollapsed"></header-bar>
             </n-layout-header>
-
-            <n-layout-content :native-scrollbar="true" class="content" style="flex:1"
-                content-style="width:100%;display:flex;padding: 0px 12px 0px 12px;background-color: #DCD9D4;background-image: linear-gradient(135deg, #f5f7fa 100%, var(--main-color) 100%)">
-                <div style="width:100%;flex:1">
-                    <div class="layout-viseheader">
-                        <tabs @updateView="reload"></tabs>
-                    </div>
-                    <div  style="margin-top:5px;width:100%;height:99%;">
-                        <router-view v-if="showView" v-slot="{ Component }">
-                            <keep-alive>
-                                <component :is="Component" />
-                            </keep-alive>
-                        </router-view>
-                    </div>
+            <n-layout-content :position="'static'"
+                content-style="width:100%;display:flex;flex-direction:row;padding: 5px 18px 5px 15px;background-color: #DCD9D4;background-image: linear-gradient(135deg, #f5f7fa 100%, var(--main-color) 100%)">
+                <div class="layout-viseheader">
+                    <tabs @updateView="reload"></tabs>
                 </div>
-
             </n-layout-content>
+            <div class="content flex-center">
+                <div class="content-main">
+                    <router-view v-if="showView" v-slot="{ Component }">
+                        <keep-alive>
+                            <component :is="Component" />
+                        </keep-alive>
+                    </router-view>
+                </div>
+            </div>
         </n-layout>
     </n-layout>
 </template>
 
 <script setup lang="ts">
-import { ref,nextTick } from 'vue'
+import { ref, nextTick } from 'vue'
 import sideMenu from './sideMenu/sideMenu.vue'
 import headerBar from './headerBar/headerBar.vue'
 import tabs from './tabs/tabs.vue'
-import{ useDebounceFn} from'@vueuse/core'
+import { useDebounceFn } from '@vueuse/core'
 const isCollapsed = ref(false)
 let showView = ref(true)
-let reload = useDebounceFn(()=>{
+let reload = useDebounceFn(() => {
     showView.value = false
-    nextTick(()=>{
+    nextTick(() => {
         showView.value = true
     })
     // setTimeout(() => {
     //     showView.value = true
     // }, 200);
-},600)
+}, 600)
 
 </script>
 
@@ -62,19 +60,43 @@ let reload = useDebounceFn(()=>{
 .layout-header {
     align-items: space-between;
     height: 61.66px;
-    box-shadow: 0px 2px 10px rgba(203, 213, 230,.8);
+    box-shadow: 0px 2px 10px rgba(203, 213, 230, .8);
 
 }
 
 .layout-viseheader {
     /* position:fixed; */
-    width:100%;
-    /* height: 40px; */
+    width: 100%;
+    /* height: 3rem;; */
 }
 
 .content {
-    margin-top:5px;
-    min-height: calc(100vh - 67px);
-    height: calc(100vh - 67px);
+    overflow: auto;
+    flex:auto;
+    position: relative;
+    /* width: 100%; */
+    height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
+    margin:0px 0px 0px 0px;
+    background-color: #DCD9D4;
+    background-image: linear-gradient(135deg, #f5f7fa 100%, var(--main-color) 100%)
+}
+.content-main {
+    flex:1;
+    padding:0px 15px 0px 15px;
+    height: 100%;
+    overflow: auto;
+}
+.content-main::-webkit-scrollbar {
+    opacity: 0.9;
+    border-radius: 1rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    background-color: #cccccc;
+}
+.content-main::-webkit-scrollbar-thumb{
+    opacity: 0.9;
+    border-radius: 1rem;
+    background-color: rgb(153, 153, 153);
 }
 </style>

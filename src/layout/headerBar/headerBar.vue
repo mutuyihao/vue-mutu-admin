@@ -78,9 +78,9 @@ let options=[{label:"个人设置",key:"personalsetting"},{label:"退出登录",
     cursor: pointer;
 }
 
-a {
+/* a {
     color: black;
-}
+} */
 
 .clicked {
     transform: rotate(360deg);
