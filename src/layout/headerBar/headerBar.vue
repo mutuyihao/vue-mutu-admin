@@ -29,7 +29,7 @@
             </a>
         </div>
         <div class="flex-center pretendBtn">
-            <n-dropdown trigger="hover" :options="options">
+            <n-dropdown trigger="hover" :options="options" @select="onSelect">
                 <NIcon size="1rem">
                     <PersonCircleOutline />
                 </NIcon>
@@ -43,6 +43,7 @@ import { reactive, ref, onMounted,watch, type VNodeRef } from 'vue';
 import { useRoute, type RouteLocationMatched } from 'vue-router'
 import { MenuFoldOutlined, MenuUnfoldOutlined, ReloadOutlined, GithubOutlined, } from '@vicons/antd'
 import { PersonCircleOutline } from '@vicons/ionicons5'
+import router from '@/router';
 
 defineProps({
     isCollapsed: Boolean
@@ -64,6 +65,15 @@ function animate() {
 }
 
 let options=[{label:"个人设置",key:"personalsetting"},{label:"退出登录",key:"signout"}]
+function onSelect(key:string){
+    switch(key){
+        case "signout":
+            window.$message.loading("正在退出")
+            localStorage.removeItem("TOKEN")
+            router.go(0)
+        default:
+    }
+}
 </script>
 
 <style scoped>

@@ -47,10 +47,12 @@ router.beforeEach((to, from, next) => {
     let defaultTitle = "Mutu Admin"
     document.title = (to.meta.title ? to.meta.title + "—" : "") + defaultTitle
     if (!localStorage.getItem("TOKEN")&&to.fullPath !== "/login") {
+        NProgress.start()
         next("/login") 
         return
     }
     if (localStorage.getItem("TOKEN")&&to.fullPath === "/login") {
+        NProgress.start()
         router.go(-1) 
         return
     }

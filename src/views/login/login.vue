@@ -42,7 +42,7 @@
 
                         </n-form-item-row>
                     </n-form>
-                    <n-button @click="login" color="#5d80b7" type="primary" block secondary strong>
+                    <n-button @click="onLogin" color="#5d80b7" type="primary" block secondary strong>
                         登录
                     </n-button>
                 </n-tab-pane>
@@ -230,7 +230,7 @@ const registerRules: FormRules = reactive({
 let router = useRouter()
 let route = useRoute()
 
-function login() {
+function onLogin() {
     let tip = reactive(window.$message.loading("正在登录中"))
     const { identifier, password } = loginForm
     http.login({ identifier, password }).then((res) => {
@@ -250,9 +250,9 @@ function onRegister() {
         tip.type = "success"
         tip.content = "注册成功,将为你自动跳转首页"
         tip.duration = 3000
-        // tip.destroy()
-        // tip = null
-        // router.push("/")
+        tip.destroy()
+        tip = null
+        router.push("/")
     }).catch((err) => {
         console.log(err)
         tip.type = "error"
