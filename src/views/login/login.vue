@@ -19,9 +19,9 @@
                 size="large" animated style="margin: 1vh 0vh" pane-style="max-width:100%;box-sizing: border-box;"
                 justify-content="space-evenly" type="line">
                 <n-tab-pane name="signin" tab="登录">
-                    <n-form ref="loginFormRef" :model="loginForm" :rules="rules1">
-                        <n-form-item-row path="account" label="账号">
-                            <n-input clearable placeholder="请输入账号" :autofocus="true" v-model:value="loginForm.account"
+                    <n-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
+                        <n-form-item-row path="username" label="用户名">
+                            <n-input clearable placeholder="请输入用户名" :autofocus="true" v-model:value="loginForm.identifier"
                                 @keydown.enter.prevent>
                                 <template #prefix>
                                     <n-icon size="18" color="#808695">
@@ -47,9 +47,9 @@
                     </n-button>
                 </n-tab-pane>
                 <n-tab-pane name="signup" tab="注册">
-                    <n-form ref="registerFormRef" :model="registerForm" :rules="rules1">
-                        <n-form-item path="account" label="账号">
-                            <n-input placeholder="请输入账号" :autofocus="true" v-model:value="registerForm.account"
+                    <n-form ref="registerFormRef" :model="registerForm" :rules="registerRules">
+                        <n-form-item path="username" label="用户名">
+                            <n-input placeholder="请输入用户名" :autofocus="true" v-model:value="registerForm.username"
                                 @keydown.enter.prevent>
                                 <template #prefix>
                                     <n-icon size="18" color="#808695">
@@ -58,6 +58,15 @@
                                 </template>
                             </n-input>
                         </n-form-item>
+                        <n-form-item-row path="email" label="邮箱">
+                            <n-input placeholder="请输入邮箱" v-model:value="registerForm.email" @keydown.enter.prevent>
+                                <template #prefix>
+                                    <n-icon size="18" color="#808695">
+                                        <MailOutline />
+                                    </n-icon>
+                                </template>
+                            </n-input>
+                        </n-form-item-row>
                         <n-form-item-row path="password" label="密码">
                             <n-input placeholder="请输入密码" type="password" showPasswordOn="click"
                                 v-model:value="registerForm.password" @keydown.enter.prevent>
@@ -79,7 +88,7 @@
                             </n-input>
                         </n-form-item-row>
                     </n-form>
-                    <n-button @click="register" color="#5d80b7" type="primary" block secondary strong>
+                    <n-button @click="onRegister" color="#5d80b7" type="primary" block secondary strong>
                         注册
                     </n-button>
                 </n-tab-pane>
@@ -93,36 +102,87 @@
 
 <script setup lang="ts">
 import type { FormInst, FormItemInst, FormItemRule, FormRules } from 'naive-ui'
-import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5';
+import { PersonOutline,LockClosedOutline, LogoGithub, LogoFacebook, MailOutline } from '@vicons/ionicons5';
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import * as http from '@/api'
+
+let activeTab = ref("signin")
 let loginForm = reactive({
-    account: "admin",
+    identifier: "admin",
     password: "12345678"
 })
 let registerForm = reactive({
-    account: "",
-    password: "",
-    reenteredPassword: ""
+    username: "test",
+    email: "test@test.com",
+    password: "12345678",
+    reenteredPassword: "12345678"
 })
 
-function handleTabsChange(name: string | number, oldName: string | number) {
-    loginForm.account = "admin"
-    loginForm.password = "12345678"
-    registerForm.account = ""
-    registerForm.password = ""
-    registerForm.reenteredPassword = ""
+function handleTabsChange(name: string, oldName: string) {
+    activeTab.value = name
+    // loginForm.identifier = "admin"
+    // loginForm.password = "12345678"
+    // registerForm.username = ""
+    // registerForm.password = ""
+    // registerForm.reenteredPassword = ""
     return true
 }
 
-const rules1: FormRules = {
-    account: [
+const loginRules: FormRules = {
+    username: [
         {
             required: true,
             validator(rule: FormItemRule, value: string) {
                 if (value == "") {
                     console.log(value)
-                    return new Error("请输入账号")
+                    return new Error("请输入用户名")
+                }
+                return true
+            },
+            trigger: ['input', 'blur']
+        }
+    ],
+    password: [
+        {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+                if (value == "") {
+                    return new Error("请输入密码")
+                }
+                if (value.length < 8) {
+                    return new Error("密码不得少于8位")
+                }
+                if (registerForm.reenteredPassword !== "" && registerForm.reenteredPassword !== value) {
+                    return new Error("两次密码输入不一致")
+                }
+                return true
+            },
+            trigger: ['input', 'blur']
+        }
+    ],
+}
+const registerRules: FormRules = reactive({
+    username: [
+        {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+                if (value == "") {
+                    console.log(value)
+                    return new Error("请输入用户名")
+                }
+                return true
+            },
+            trigger: ['input', 'blur']
+        }
+    ],
+    email: [
+        {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+                if (value == "") {
+                    console.log(value)
+                    return new Error("请输入邮箱")
                 }
                 return true
             },
@@ -165,22 +225,41 @@ const rules1: FormRules = {
             trigger: ['input', 'blur']
         }
     ]
-}
+})
 
 let router = useRouter()
 let route = useRoute()
 
 function login() {
-    console.log(window)
-    window.$message.loading("正在登陆中", { duration: 3000 })
-    setTimeout(() => {
-        window.$message.success("登陆成功，正在跳转")
+    let tip = reactive(window.$message.loading("正在登录中"))
+    const { identifier, password } = loginForm
+    http.login({ identifier, password }).then((res) => {
+        console.log(res)
+        localStorage.setItem("TOKEN",res.data.jwt)
+        // localStorage.clear()
+        tip.type = "success"
+        tip.content = "登录成功,将为你自动跳转首页"
         router.push("/")
-
-    }, 3000)
+    })
 }
-function register() {
-    router.push("/")
+function onRegister() {
+    let tip = reactive(window.$message.loading("正在注册中", { duration: 0 }))
+    const { username, email, password } = registerForm
+    http.register({ username, email, password }).then((res) => {
+        console.log(res)
+        tip.type = "success"
+        tip.content = "注册成功,将为你自动跳转首页"
+        tip.duration = 3000
+        // tip.destroy()
+        // tip = null
+        // router.push("/")
+    }).catch((err) => {
+        console.log(err)
+        tip.type = "error"
+        tip.content = err.response.data.error.message
+        tip.closable = true
+        tip.duration = 3000
+    })
 }
 </script>
 

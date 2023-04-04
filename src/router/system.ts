@@ -35,7 +35,7 @@ const specialRoutes: RouteRecordRaw[] = [
         children: [
             {
                 name: '四零四',
-                path: '/404',
+                path: '/:catch(.*)*/404',
                 component: () => import('@/views/special/404.vue'),
                 meta: {
                     title: "404"
@@ -43,7 +43,7 @@ const specialRoutes: RouteRecordRaw[] = [
             },
             {
                 name: '四零三',
-                path: '/403',
+                path: '/:catch(.*)*/403',
                 component: () => import('@/views/special/403.vue'),
                 meta: {
                     title: "403"

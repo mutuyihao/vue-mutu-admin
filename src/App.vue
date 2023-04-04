@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { themeOverrides } from './theme'
-import { useMessage } from 'naive-ui';
 </script>
 
 <template>

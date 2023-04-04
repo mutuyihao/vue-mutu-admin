@@ -8,3 +8,4 @@ export async function getData(url: string) {
         return error
     }
 }
+export * from './user'

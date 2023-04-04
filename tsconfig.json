@@ -1,12 +1,15 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue","src/*.d.ts"],
+  "exclude": ["node_modules","dist",],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["naive-ui/volar"]
+    "types": ["naive-ui/volar"],
+    "module": "ESNext",
+    "moduleResolution": "node",
   },
 
   "references": [

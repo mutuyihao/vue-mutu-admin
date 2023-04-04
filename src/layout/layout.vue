@@ -43,9 +43,6 @@ let reload = useDebounceFn(() => {
     nextTick(() => {
         showView.value = true
     })
-    // setTimeout(() => {
-    //     showView.value = true
-    // }, 200);
 }, 600)
 
 </script>

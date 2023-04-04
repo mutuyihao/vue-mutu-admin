@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw, RouteRecordName } from 'vue-router'
-import { systemRoutes,specialRoutes } from './system'
+
+import { systemRoutes, specialRoutes } from './system'
 import layout from '@/layout/layout.vue'
 
-import  NProgress  from 'nprogress'
+import NProgress from 'nprogress'
 import '@/assets/css/nprogress.css'
 interface moduleType {
     routes: RouteRecordRaw[]
@@ -30,7 +31,7 @@ const router = createRouter({
 })
 
 function filterDynamicRoutes(item: RouteRecordRaw, root?: RouteRecordName) {
-    let {...tempItem} = {...item}
+    let { ...tempItem } = { ...item }
     if (root) {
         router.addRoute(root, item)
     } else {
@@ -45,12 +46,19 @@ router.beforeEach((to, from, next) => {
 
     let defaultTitle = "Mutu Admin"
     document.title = (to.meta.title ? to.meta.title + "—" : "") + defaultTitle
-
+    if (!localStorage.getItem("TOKEN")&&to.fullPath !== "/login") {
+        next("/login") 
+        return
+    }
+    if (localStorage.getItem("TOKEN")&&to.fullPath === "/login") {
+        router.go(-1) 
+        return
+    }
     if (!isAddDynamicRoutes) {
         dynamicRoutes.map((item) => {
             filterDynamicRoutes(item)
         })
-        specialRoutes.map((item)=>{
+        specialRoutes.map((item) => {
             router.addRoute(item)
         })
         isAddDynamicRoutes = true
@@ -59,15 +67,16 @@ router.beforeEach((to, from, next) => {
         }
         NProgress.start()
         next()
-        return false
+        return   // return false
     }
     NProgress.start()
     next()
+    return
 })
-router.afterEach(()=>{
+router.afterEach(() => {
     NProgress.done()
-    
+
 })
-export {dynamicRoutes,systemRoutes,specialRoutes}
+export { dynamicRoutes, systemRoutes, specialRoutes }
 export default router
 

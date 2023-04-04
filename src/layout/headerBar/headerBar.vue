@@ -22,7 +22,7 @@
         </div>
         <div style="flex:1"></div>
         <div class="flex-center">
-            <a target="blank" class="flex-center" href="https://github.com/mutuyihao/vue-mutu-admin">
+            <a style="color:black" target="blank" class="flex-center" href="https://github.com/mutuyihao/vue-mutu-admin">
                 <NIcon size="1rem">
                     <GithubOutlined></GithubOutlined>
                 </NIcon>

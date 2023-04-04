@@ -5,7 +5,10 @@ interface moduleType {
     default: Object
 }
 for (let path in modules) {
-    let name = new RegExp('(?<=\/options\/).*(?=\/index)').exec(path)![0]
+    // let name = new RegExp('(?<=\/options\/).*(?=\/index)').exec(path)![0]
+    // let name = "line"
+    let name=path.split("/")[2]
+    // console.log(path.split("/"))
     let typeOption = modules[path] as moduleType
     option[name] = typeOption.default
     typeList.push(name)

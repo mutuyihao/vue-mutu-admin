@@ -3,12 +3,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onUnmounted, watch, onMounted, reactive, onBeforeUnmount} from 'vue'
+import { ref, onUnmounted, watch, onMounted, reactive, onBeforeUnmount } from 'vue'
 import * as echarts from 'echarts'
-import {option,chartTypeList} from './index'
+import { option, chartTypeList } from './index'
 
 type ChartType = (typeof chartTypeList)[number]
-const props = defineProps<{ chartOption: any, chartType:ChartType }>()
+const props = defineProps<{ chartOption: any, chartType: ChartType }>()
 const chartRef = ref()
 let myChart: echarts.ECharts | null = null
 

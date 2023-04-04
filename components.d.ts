@@ -10,13 +10,13 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Card: typeof import('./src/components/card/card.vue')['default']
-    Echart: typeof import('./src/components/echarts/echart.vue')['default']
-    Echarts: typeof import('./src/components/echarts/echarts.vue')['default']
+    Chart: typeof import('./src/components/chart/chart.vue')['default']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
+    NDataTable: typeof import('naive-ui')['NDataTable']
     NDropdown: typeof import('naive-ui')['NDropdown']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
@@ -31,6 +31,7 @@ declare module '@vue/runtime-core' {
     NNumberAnimation: typeof import('naive-ui')['NNumberAnimation']
     NSpace: typeof import('naive-ui')['NSpace']
     NStatistic: typeof import('naive-ui')['NStatistic']
+    NTable: typeof import('./src/components/n-table/n-table.vue')['default']
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
     NTooltip: typeof import('naive-ui')['NTooltip']

@@ -43,7 +43,9 @@ const themeOverrides: GlobalThemeOverrides = {
         arrowColorChildActive:"white",
         arrowColorChildActiveHover:"white",
         fontSize:"12"
+    },
+    Message:{
+        colorLoading:"blue"
     }
-
 }
 export { themeOverrides }
