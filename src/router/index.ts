@@ -3,7 +3,7 @@ import type { RouteRecordRaw, RouteRecordName } from 'vue-router'
 
 import { systemRoutes, specialRoutes } from './system'
 import layout from '@/layout/layout.vue'
-
+import * as pinia from '@/stores'
 import NProgress from 'nprogress'
 import '@/assets/css/nprogress.css'
 interface moduleType {
@@ -46,14 +46,14 @@ router.beforeEach((to, from, next) => {
 
     let defaultTitle = "Mutu Admin"
     document.title = (to.meta.title ? to.meta.title + "—" : "") + defaultTitle
-    if (!localStorage.getItem("TOKEN")&&to.fullPath !== "/login") {
+    if ((!localStorage.getItem("TOKEN") || !localStorage.getItem("USER")) && to.fullPath !== "/login") {
         NProgress.start()
-        next("/login") 
+        next("/login")
         return
     }
-    if (localStorage.getItem("TOKEN")&&to.fullPath === "/login") {
+    if (localStorage.getItem("TOKEN") && localStorage.getItem("USER") && to.fullPath === "/login") {
         NProgress.start()
-        router.go(-1) 
+        router.go(-1)
         return
     }
     if (!isAddDynamicRoutes) {
@@ -70,6 +70,22 @@ router.beforeEach((to, from, next) => {
         NProgress.start()
         next()
         return   // return false
+    }
+    // function isRouteAuth(route: any) {
+    //     Object.keys(menu!).forEach(item => {
+    //         if (route.meta.title == item) {
+    //             return true
+    //         } else {
+    //             return false
+    //         }
+    //     })
+    // }
+    let user = JSON.parse(localStorage.getItem('USER')!)
+    let { menu } = user
+    if (to.meta.auth && !menu[to.meta.title + ""]) {
+        next("/dashboard/console")
+        window.$dialog.error({ title: "前方的页面以后再来探索吧~" })
+        return
     }
     NProgress.start()
     next()

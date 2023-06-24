@@ -15,8 +15,9 @@
                 </div>
             </template>
         </draggable>
-        <n-dropdown trigger="hover" :options="options" @select="handleSelect">
-            <div class="tabs-menu flex-center pretendBtn">
+        <n-dropdown trigger="hover" :options="options" @select="handleSelect" @mouseenter="isRotate = true"
+            @mouseleave="isRotate = false">
+            <div :class="['tabs-menu', 'flex-center', 'pretendBtn', { rotated: isRotate }]">
                 <NIcon size="1rem">
                     <DownOutlined />
                 </NIcon>
@@ -26,20 +27,23 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watch } from 'vue'
+import { reactive, computed, watch, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import draggable from 'vuedraggable'
 import { CloseCircleOutlined, DownOutlined, ReloadOutlined, CloseOutlined, MinusSquareOutlined, MinusOutlined } from '@vicons/antd'
 import router from '@/router';
 import { renderIcon } from '@/utils';
+
+let isRotate = ref(false)
+
 interface Tab {
     name: string,
     fullPath: string
 }
 let tabs: Tab[] = localStorage.getItem("TABS") ? reactive(JSON.parse(localStorage.getItem("TABS") as string)) : reactive([{ name: "主控台", fullPath: "/dashboard/console" }])
 
-window.addEventListener("beforeunload", ()=>{
-   localStorage.setItem("TABS", JSON.stringify(tabs))
+window.addEventListener("beforeunload", () => {
+    localStorage.setItem("TABS", JSON.stringify(tabs))
 })
 let route = useRoute()
 watch(route, (newVal) => {
@@ -81,7 +85,7 @@ let options = computed(() => {
         label: "关闭当前",
         key: "closeCurrent",
         icon: () => renderIcon(CloseOutlined),
-        disabled: isDisabled && route.fullPath == "/dashboard/console",
+        disabled: isDisabled || route.fullPath == "/dashboard/console",
     }, {
         label: "关闭其它",
         key: "closeOther",
@@ -103,7 +107,7 @@ function handleSelect(key: string | number) {
         case 'closeCurrent':
             tabs.map((item, index) => {
                 if (item.fullPath == route.fullPath) {
-                    handleClickTab(tabs[index + 1] ? tabs[index + 1].fullPath : tabs[index - 1].fullPath)
+                    handleClickTab(!!tabs[index + 1] ? tabs[index + 1].fullPath : tabs[index - 1].fullPath)
                     tabs.splice(index, 1)
                 }
             })
@@ -131,7 +135,15 @@ function handleSelect(key: string | number) {
 <style scoped>
 .tabs-main {
     justify-content: flex-start;
+    flex-wrap: nowrap;
     gap: 10px;
+}
+
+@media screen and (max-width:800px) {
+    .tabs-main {
+        max-width: 90%;
+        overflow: auto;
+    }
 }
 
 .tab-card {
@@ -141,6 +153,7 @@ function handleSelect(key: string | number) {
     box-shadow: 1px 1px 3px var(--main-color);
     gap: 5px;
     padding: 3px 10px;
+    white-space: nowrap;
 }
 
 .active-tab {
@@ -168,9 +181,14 @@ function handleSelect(key: string | number) {
     top: 0;
     right: 0;
     height: 100%;
-    transition:all .3s ease;
+    transition: all .3s ease;
 }
-.tabs-menu:hover{
-    transform:rotate(180deg);
+
+.tabs-menu:hover {
+    transform: rotate(180deg);
+}
+
+.rotated {
+    transform: rotate(180deg);
 }
 </style>

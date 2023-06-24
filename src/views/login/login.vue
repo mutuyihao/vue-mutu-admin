@@ -1,15 +1,15 @@
 <template>
     <div class="main flex-center">
         <div class="login-illu-box flex-center">
-            <img class="login-illu" src="@/assets/img/login-blue-pc.png" alt="login-illustrations">
+            <img class="login-illu" src="@/assets/img/login-blue-pc.png" alt="login-illustrations" />
         </div>
         <n-card class="wrap" content-style="background:rgba(240, 243, 248,1);border-radius: 1rem; " :bordered="false">
             <n-space vertical class="flex-column-center">
-                <img class="logo" src="@/assets/img/logo.png" alt="logo">
+                <img class="logo" src="@/assets/img/logo.png" alt="logo" />
 
                 <n-tooltip placement="right">
                     <template #trigger>
-                        <div class="slogan"> Mutu Admin中后台前端/设计解决方案 </div>
+                        <div class="slogan">Mutu Admin中后台前端/设计解决方案</div>
                     </template>
                     Mutu Admin中后台前端/设计解决方案
                 </n-tooltip>
@@ -20,7 +20,7 @@
                 justify-content="space-evenly" type="line">
                 <n-tab-pane name="signin" tab="登录">
                     <n-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
-                        <n-form-item-row path="username" label="用户名">
+                        <n-form-item-row path="identifier" label="用户名">
                             <n-input clearable placeholder="请输入用户名" :autofocus="true" v-model:value="loginForm.identifier"
                                 @keydown.enter.prevent>
                                 <template #prefix>
@@ -39,7 +39,6 @@
                                     </n-icon>
                                 </template>
                             </n-input>
-
                         </n-form-item-row>
                     </n-form>
                     <n-button @click="onLogin" color="#5d80b7" type="primary" block secondary strong>
@@ -95,28 +94,34 @@
             </n-tabs>
         </n-card>
 
-        <div>
-        </div>
+        <div></div>
     </div>
 </template>
 
 <script setup lang="ts">
 import type { FormInst, FormItemInst, FormItemRule, FormRules } from 'naive-ui'
-import { PersonOutline,LockClosedOutline, LogoGithub, LogoFacebook, MailOutline } from '@vicons/ionicons5';
+import {
+    PersonOutline,
+    LockClosedOutline,
+    LogoGithub,
+    LogoFacebook,
+    MailOutline
+} from '@vicons/ionicons5'
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import * as pinia from '@/stores'
 import * as http from '@/api'
 
-let activeTab = ref("signin")
+let activeTab = ref('signin')
 let loginForm = reactive({
-    identifier: "admin",
-    password: "12345678"
+    identifier: 'admin',
+    password: '12345678'
 })
 let registerForm = reactive({
-    username: "test",
-    email: "test@test.com",
-    password: "12345678",
-    reenteredPassword: "12345678"
+    username: 'test',
+    email: 'test@test.com',
+    password: '12345678',
+    reenteredPassword: '12345678'
 })
 
 function handleTabsChange(name: string, oldName: string) {
@@ -130,13 +135,14 @@ function handleTabsChange(name: string, oldName: string) {
 }
 
 const loginRules: FormRules = {
-    username: [
+    identifier: [
         {
             required: true,
             validator(rule: FormItemRule, value: string) {
-                if (value == "") {
+                console.log(value)
+                if (!value || value == '') {
                     console.log(value)
-                    return new Error("请输入用户名")
+                    return new Error('请输入用户名')
                 }
                 return true
             },
@@ -147,29 +153,32 @@ const loginRules: FormRules = {
         {
             required: true,
             validator(rule: FormItemRule, value: string) {
-                if (value == "") {
-                    return new Error("请输入密码")
+                if (!value || value == '') {
+                    return new Error('请输入密码')
                 }
                 if (value.length < 8) {
-                    return new Error("密码不得少于8位")
+                    return new Error('密码不得少于8位')
                 }
-                if (registerForm.reenteredPassword !== "" && registerForm.reenteredPassword !== value) {
-                    return new Error("两次密码输入不一致")
+                if (
+                    registerForm.reenteredPassword !== '' &&
+                    registerForm.reenteredPassword !== value
+                ) {
+                    return new Error('两次密码输入不一致')
                 }
                 return true
             },
             trigger: ['input', 'blur']
         }
-    ],
+    ]
 }
 const registerRules: FormRules = reactive({
     username: [
         {
             required: true,
             validator(rule: FormItemRule, value: string) {
-                if (value == "") {
+                if (!value || value == '') {
                     console.log(value)
-                    return new Error("请输入用户名")
+                    return new Error('请输入用户名')
                 }
                 return true
             },
@@ -180,9 +189,9 @@ const registerRules: FormRules = reactive({
         {
             required: true,
             validator(rule: FormItemRule, value: string) {
-                if (value == "") {
+                if (!value || value == '') {
                     console.log(value)
-                    return new Error("请输入邮箱")
+                    return new Error('请输入邮箱')
                 }
                 return true
             },
@@ -193,14 +202,17 @@ const registerRules: FormRules = reactive({
         {
             required: true,
             validator(rule: FormItemRule, value: string) {
-                if (value == "") {
-                    return new Error("请输入密码")
+                if (!value || value == '') {
+                    return new Error('请输入密码')
                 }
                 if (value.length < 8) {
-                    return new Error("密码不得少于8位")
+                    return new Error('密码不得少于8位')
                 }
-                if (registerForm.reenteredPassword !== "" && registerForm.reenteredPassword !== value) {
-                    return new Error("两次密码输入不一致")
+                if (
+                    registerForm.reenteredPassword !== '' &&
+                    registerForm.reenteredPassword !== value
+                ) {
+                    return new Error('两次密码输入不一致')
                 }
                 return true
             },
@@ -211,14 +223,14 @@ const registerRules: FormRules = reactive({
         {
             required: true,
             validator(rule: FormItemRule, value: string) {
-                if (value == "") {
-                    return new Error("请输入密码")
+                if (!value || value == '') {
+                    return new Error('请输入密码')
                 }
                 if (value.length < 8) {
-                    return new Error("密码不得少于8位")
+                    return new Error('密码不得少于8位')
                 }
                 if (registerForm.password !== value) {
-                    return new Error("两次密码输入不一致")
+                    return new Error('两次密码输入不一致')
                 }
                 return true
             },
@@ -230,35 +242,60 @@ const registerRules: FormRules = reactive({
 let router = useRouter()
 let route = useRoute()
 
+let loginFormRef = ref<FormInst | null>(null)
+
+let user = pinia.useAccountStore()
+let { menu } = user
+const { setUser } = user
 function onLogin() {
-    let tip = reactive(window.$message.loading("正在登录中"))
-    const { identifier, password } = loginForm
-    http.login({ identifier, password }).then((res) => {
-        console.log(res)
-        localStorage.setItem("TOKEN",res.data.jwt)
-        // localStorage.clear()
-        tip.type = "success"
-        tip.content = "登录成功,将为你自动跳转首页"
-        router.push("/")
+    loginFormRef.value?.validate((errors) => {
+        if (!errors) {
+            let tip = reactive(window.$message.loading('正在登录中'))
+            const { identifier, password } = loginForm
+            http.login({ identifier, password }).then((res) => {
+                console.log(res)
+                localStorage.clear()
+
+                setUser(res.data.user)
+                localStorage.setItem('TOKEN', res.data.jwt)
+                // localStorage.clear()
+                tip.type = 'success'
+                tip.content = '登录成功,将为你自动跳转首页'
+                router.push('/')
+            })
+        }
     })
 }
+
+let registerFormRef = ref<FormInst | null>(null)
+
 function onRegister() {
-    let tip = reactive(window.$message.loading("正在注册中", { duration: 0 }))
-    const { username, email, password } = registerForm
-    http.register({ username, email, password }).then((res) => {
-        console.log(res)
-        tip.type = "success"
-        tip.content = "注册成功,将为你自动跳转首页"
-        tip.duration = 3000
-        tip.destroy()
-        tip = null
-        router.push("/")
-    }).catch((err) => {
-        console.log(err)
-        tip.type = "error"
-        tip.content = err.response.data.error.message
-        tip.closable = true
-        tip.duration = 3000
+    registerFormRef.value?.validate((errors) => {
+        if (!errors) {
+            let tip = reactive(
+                window.$message.loading('正在注册中', { duration: 10000 })
+            )
+            const { username, email, password } = registerForm
+            http
+                .register({ username, email, password })
+                .then((res) => {
+                    localStorage.clear()
+                    setUser(res.data.user)
+                    localStorage.setItem('TOKEN', res.data.jwt)
+                    tip.type = 'success'
+                    tip.content = '注册成功,将为你自动跳转首页'
+                    tip.duration = 3000
+                    tip.destroy()
+                    router.push('/')
+                })
+                .catch((error) => {
+                    console.log(error)
+                    tip.type = 'error'
+                    tip.content = error.response.data.error.message
+                    tip.closable = true
+                    tip.duration = 3000
+                })
+        }
     })
 }
 </script>
@@ -289,7 +326,6 @@ function onRegister() {
 }
 
 .login-illu {
-
     width: 25vw;
     border-radius: 1rem;
 }
@@ -300,7 +336,7 @@ function onRegister() {
 }
 
 .slogan {
-    color: rgba(0, 0, 0, .4);
+    color: rgba(0, 0, 0, 0.4);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -310,13 +346,18 @@ function onRegister() {
     width: 100%;
 }
 
-@media screen and (max-width:1000px) {
+@media screen and (max-width: 1000px) {
+    .main {
+        height: 85vh;
+    }
+
     .login-illu-box {
         display: none;
     }
 
     .wrap {
         width: 80vw;
+        height: auto;
     }
 }
 </style>

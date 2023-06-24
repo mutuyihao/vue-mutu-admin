@@ -14,8 +14,8 @@
         <div>
             <n-breadcrumb>
                 <template v-for="item in breadcrumbList">
-                    <n-breadcrumb-item  separator="/">
-                        <RouterLink :to="item.path" >{{ item.meta.title }}</RouterLink>
+                    <n-breadcrumb-item separator="/">
+                        <RouterLink :to="item.path">{{ item.meta.title }}</RouterLink>
                     </n-breadcrumb-item>
                 </template>
             </n-breadcrumb>
@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted,watch, type VNodeRef } from 'vue';
+import { reactive, ref, onMounted, watch, type VNodeRef } from 'vue';
 import { useRoute, type RouteLocationMatched } from 'vue-router'
 import { MenuFoldOutlined, MenuUnfoldOutlined, ReloadOutlined, GithubOutlined, } from '@vicons/antd'
 import { PersonCircleOutline } from '@vicons/ionicons5'
@@ -52,7 +52,7 @@ defineProps({
 let route = useRoute()
 let breadcrumbList = reactive<RouteLocationMatched[]>([])
 route.matched.map((item) => breadcrumbList.push(item))
-watch(route,(newVal)=>{
+watch(route, (newVal) => {
     breadcrumbList.splice(0)
     newVal.matched.map((item) => breadcrumbList.push(item))
 })
@@ -64,14 +64,17 @@ function animate() {
     }, 800)
 }
 
-let options=[{label:"个人设置",key:"personalsetting"},{label:"退出登录",key:"signout"}]
-function onSelect(key:string){
-    switch(key){
+let options = [{ label: "个人设置", key: "personalsetting" }, { label: "退出登录", key: "signout" }]
+function onSelect(key: string) {
+    switch (key) {
         case "signout":
             window.$message.loading("正在退出")
-            localStorage.removeItem("TOKEN")
+            // localStorage.removeItem("TOKEN")
+            // localStorage.removeItem("USER")
+            // localStorage.removeItem("TABS")
+            localStorage.clear()
             router.go(0)
-        default:
+            break
     }
 }
 </script>
@@ -88,12 +91,14 @@ function onSelect(key:string){
     cursor: pointer;
 }
 
-/* a {
-    color: black;
-} */
-
 .clicked {
     transform: rotate(360deg);
     transition: all .6s ease-in-out;
+}
+
+@media screen and (max-width: 800px) {
+    .headerBar-main {
+        width: 92%;
+    }
 }
 </style>

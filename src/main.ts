@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 
 import { createPinia } from 'pinia'
+import 'qweather-icons/font/qweather-icons.css'
 // 引入标准化css
 import '@/assets/css/main.css'
 // // 引入通用字体

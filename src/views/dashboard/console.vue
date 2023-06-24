@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex-column" style="gap: 10px">
         <div class="flex-center data-card-main">
             <div class="data-card">
                 <daySale></daySale>
@@ -17,21 +17,31 @@
                 <yearSale></yearSale>
             </div>
         </div>
-        <div class="flex-center"  style="height:30vh">
-            <chartSale ></chartSale>
-            <chartSale ></chartSale>
+        <div class="flex-center chart-card-main" style="height: 30vh">
+            <chartSale class="chart-card-item"></chartSale>
+            <chartSale class="chart-card-item"></chartSale>
+        </div>
+        <div>
+            <div style="height: 44vh" class="flex-column-center chart-card-main chart-card-item">
+                <div style="font-size:2rem;font-weight:400;border-bottom:1px solid #cccccc">日访问量</div>
+                <chartViews class=""></chartViews>
+            </div>
+
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { getData } from '@/api'
+import * as http from '@/api'
 import daySale from './dataPanel/day-sale.vue'
 import weekSale from './dataPanel/week-sale.vue'
 import monthSale from './dataPanel/month-sale.vue'
 import seasonSale from './dataPanel/season-sale.vue'
 import yearSale from './dataPanel/year-sale.vue'
 import chartSale from './chart/chart-sale.vue'
+import chartViews from './chart/chart-views.vue'
+import { onMounted } from 'vue'
+
 
 </script>
 
@@ -42,4 +52,34 @@ import chartSale from './chart/chart-sale.vue'
 
 .data-card {
     flex: 1;
-}</style>
+}
+
+.chart-card-main {
+    gap: 10px;
+}
+
+.chart-card-item {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px #cccccc;
+}
+
+@media screen and (max-width: 800px) {
+    .data-card-main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: normal;
+    }
+
+    .chart-card-main {
+        flex: 1;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .chart-card-item {
+        flex-direction: row;
+    }
+}
+</style>

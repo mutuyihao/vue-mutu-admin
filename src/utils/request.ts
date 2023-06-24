@@ -1,13 +1,43 @@
 import axios from 'axios'
 
-let instance = axios.create({
-    baseURL:import.meta.env.VITE_API_BASE_URL,
-    headers:{
-        "Content-Type":'application/json'
-    }
+const token = localStorage.getItem('TOKEN')
+  ? 'Bearer ' + localStorage.getItem('TOKEN')
+  : null
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 })
-function onSuccessRequest(config:any){
-    return config
+function onSuccessRequest(config: any) {
+  const token = localStorage.getItem('TOKEN')
+    ? 'Bearer ' + localStorage.getItem('TOKEN')
+    : null
+  config.headers.Authorization = token
+  console.log(config)
+  return config
 }
-instance.interceptors.request.use(onSuccessRequest,)
+function onRejectedRequest(error: any) {
+  console.log(error)
+  return error
+}
+function onSuccessResponse(res: any) {
+  console.log(res)
+  if (res.status == '200') {
+    console.log('————api正常,返回内容————', res)
+    return res
+  } else {
+    console.log('api错误,返回内容', res)
+
+    window.$message.error("————api错误,返回内容————" + res)
+    return res
+  }
+}
+function onRejectedResponse(error: any) {
+  console.log(error)
+  return Promise.reject(error)
+}
+instance.interceptors.request.use(onSuccessRequest, onRejectedRequest)
+instance.interceptors.response.use(onSuccessResponse, onRejectedResponse)
+
 export default instance

@@ -1,6 +1,5 @@
 import layout from '@/layout/layout.vue'
 import { renderIcon } from '@/utils'
-import { DashboardOutlined } from '@vicons/antd'
 import { BrushOutline } from '@vicons/ionicons5'
 import type { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [{
@@ -17,7 +16,8 @@ const routes: RouteRecordRaw[] = [{
         path: "/show/table",
         component: () => import("@/views/show/table.vue"),
         meta: {
-            title: "展示表格"
+            title: "展示表格",
+            auth: true,
         },
     }]
 }]
