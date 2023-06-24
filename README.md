@@ -11,31 +11,31 @@ Mutu Admin 后台管理系统是一个全栈项目，主要用来处理企业中
 #### 前端部分
 
 ```sh
-┌── public				# 静态资源(不会被Webpack打包)
-├── src					# 源代码
-│	├── api				# 接口
-│	├── assets			# 静态资源(会被打包)
-│	├── components		# 公共组件
-|	├── key				# provide/inject
-│	├── layout			# 框架布局视图
-|	├── plugin			# 全局通知/弹窗等方法配置
-│	├── router			# 路由表
-│	├── stores			# Pinia状态管理
-│	├── utils			# 全局公用方法
-│	├── views			# 所有视图
-│	├── App.vue			# 入口视图
-│	├── theme.ts		# 全局NaiveUI配置
-│	├── index.d.ts		# 全局类型声明文件
-│	└── main.ts			# 入口文件
+┌── public				      # 静态资源(不会被Webpack打包)
+├── src					        # 源代码
+│	├── api				        # 接口
+│	├── assets			      # 静态资源(会被打包)
+│	├── components		    # 公共组件
+│	├── key				        # provide/inject
+│	├── layout			      # 框架布局视图
+│	├── plugin			      # 全局通知/弹窗等方法配置
+│	├── router			      # 路由表
+│	├── stores			      # Pinia状态管理
+│	├── utils			        # 全局公用方法
+│	├── views			        # 所有视图
+│	├── App.vue			      # 入口视图
+│	├── theme.ts		      # 全局NaiveUI配置
+│	├── index.d.ts		    # 全局类型声明文件
+│	└── main.ts			      # 入口文件
 ├── .env.development    # 开发模式下环境变量配置
 ├── .env.production     # 生产模式下环境变量配置
-├── .editorconfig		# 统一编辑器样式
-├── package.json		# 包管理
+├── .editorconfig		    # 统一编辑器样式
+├── package.json		    # 包管理
 ├── auto-imports.d.ts   # NaiveUI 自动引入自动生成的类型文件
 ├── components.d.ts     # NaiveUI 自动引入自动生成的类型文件
 ├── prettier.config.js	# prettier 配置
-├── tsconfig.json		# ts 配置
-└── vite.config.js		# vite 配置
+├── tsconfig.json		    # ts 配置
+└── vite.config.js		   # vite 配置
 ```
 
 #### 后端部分
