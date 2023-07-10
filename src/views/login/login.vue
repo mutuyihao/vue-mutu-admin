@@ -265,6 +265,13 @@ function onLogin() {
                 tip.type = 'success'
                 tip.content = '登录成功,将为你自动跳转首页'
                 router.push('/')
+            }).catch((error) => {
+                isLoading.value = false
+                console.log(error)
+                tip.type = 'error'
+                tip.content = error.response.data.error.message
+                tip.closable = true
+                tip.duration = 3000
             })
         }
     })
