@@ -41,7 +41,7 @@
                             </n-input>
                         </n-form-item-row>
                     </n-form>
-                    <n-button @click="onLogin" color="#5d80b7" type="primary" block secondary strong>
+                    <n-button :loading="isLoading" @click="onLogin" color="#5d80b7" type="primary" block secondary strong>
                         登录
                     </n-button>
                 </n-tab-pane>
@@ -87,7 +87,8 @@
                             </n-input>
                         </n-form-item-row>
                     </n-form>
-                    <n-button @click="onRegister" color="#5d80b7" type="primary" block secondary strong>
+                    <n-button :loading="isLoading" @click="onRegister" color="#5d80b7" type="primary" block secondary
+                        strong>
                         注册
                     </n-button>
                 </n-tab-pane>
@@ -247,15 +248,17 @@ let loginFormRef = ref<FormInst | null>(null)
 let user = pinia.useAccountStore()
 let { menu } = user
 const { setUser } = user
+let isLoading = ref(false)
 function onLogin() {
+    isLoading.value = true
     loginFormRef.value?.validate((errors) => {
         if (!errors) {
             let tip = reactive(window.$message.loading('正在登录中'))
             const { identifier, password } = loginForm
             http.login({ identifier, password }).then((res) => {
                 console.log(res)
+                isLoading.value = false
                 localStorage.clear()
-
                 setUser(res.data.user)
                 localStorage.setItem('TOKEN', res.data.jwt)
                 // localStorage.clear()
@@ -270,6 +273,7 @@ function onLogin() {
 let registerFormRef = ref<FormInst | null>(null)
 
 function onRegister() {
+    isLoading.value = true
     registerFormRef.value?.validate((errors) => {
         if (!errors) {
             let tip = reactive(
@@ -279,6 +283,7 @@ function onRegister() {
             http
                 .register({ username, email, password })
                 .then((res) => {
+                    isLoading.value = false
                     localStorage.clear()
                     setUser(res.data.user)
                     localStorage.setItem('TOKEN', res.data.jwt)
@@ -289,6 +294,7 @@ function onRegister() {
                     router.push('/')
                 })
                 .catch((error) => {
+                    isLoading.value = false
                     console.log(error)
                     tip.type = 'error'
                     tip.content = error.response.data.error.message

@@ -1,5 +1,7 @@
 # vue-mutu-admin
 
+文档仓库地址：[vue-mutu-admin-doc](https://github.com/mutuyihao/vue-mutu-admin-doc)
+
 # 介绍
 
 Mutu Admin 后台管理系统是一个全栈项目，主要用来处理企业中后台业务——员工管理、业务管理……。使用以下技术：Vue3、TS、Naive UI、Pinia、Echarts、Strapi(Headless CMS / Nodejs)……。
