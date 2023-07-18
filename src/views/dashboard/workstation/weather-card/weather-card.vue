@@ -1,5 +1,20 @@
 <template>
-    <div :class="['weather-card-main', { sunny: weather.text == '晴', rainy: weather.text.indexOf('雨') > -1 }]">
+    <div v-if="!loading" style="padding: 20px;">
+        <n-skeleton text :repeat="2" :size="'large'" />
+        <n-skeleton text style="width: 100%" />
+        <n-skeleton text style="width: 60%" />
+        <n-skeleton text style="width: 80%" />
+        <n-skeleton text style="width: 60%" />
+        <n-skeleton text style="width: 60%" />
+        <n-skeleton text style="width: 80%" />
+        <n-skeleton text style="width: 60%" />
+        <n-skeleton text style="width: 60%" />
+        <n-skeleton text style="width: 80%" />
+        <n-skeleton text style="width: 60%" />
+        <n-skeleton text style="width: 60%" />
+        <n-skeleton text style="width: 100%" />
+    </div>
+    <div v-else :class="['weather-card-main', { sunny: weather.text == '晴', rainy: weather.text.indexOf('雨') > -1 }]">
         <div class="special-card-main" :style="{ backgroundImage: 'url(' + bgUrl + ')', }">
             <div class="flex-between" style="height: 34px">
                 <div class="flex-center">

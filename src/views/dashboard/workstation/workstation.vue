@@ -28,18 +28,18 @@
         <techstackCard class="card-item"></techstackCard>
         <div class="card-item">
             <div class="card-item-title">版本号</div>
-            <div style="font-size:25px;text-align: end;">0.0.1</div>
+            <div style="font-size:25px;text-align: end;">1.0.0</div>
         </div>
         <div class="card-item">
             <div class="card-item-title">待修Bug</div>
             <div style="font-size:25px;text-align: end;">9527</div>
         </div>
         <div class="card-item">
-            <div class="card-item-title">项目完成时间</div>
-            <div style="font-size:25px;text-align: end;">10000年</div>
+            <div class="card-item-title">日期</div>
+            <div style="font-size:25px;text-align: end;">{{ dayjs().format("YYYY年-MM月-DD日") }}</div>
         </div>
         <div class="card-item" style="flex:1">
-            <div class="card-item-title">实在不知道放什么了</div>
+            <div class="card-item-title">SLOGAN!</div>
             <div
                 style="font-size:25px;text-align:end;color:transparent;background-image: linear-gradient(to right, #fa709a 50%, #fee140 100%);background-clip: text;-webkit-background-clip: text;">
                 Too
@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="flex-center work-main work-card work-bottom-card" style="margin-top: 10px;">
-        <div style="font-size:108px;color:white;">留白</div>
+        <div style="font-size:108px;color:white;"> </div>
     </div>
 </template>
 
@@ -88,7 +88,7 @@ watch(
 
 .work-main-card {
     padding: 0px 80px;
-    width: 74%;
+    width: 100%;
     background: #1e62cfb3;
     overflow: hidden;
 }
