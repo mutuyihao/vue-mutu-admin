@@ -14,4 +14,12 @@ export function formatTime(timeString: string, type?: string) {
     let time = dayjs(timeString).format(type ? type : "YYYY-MM-DD")
     return time
 }
+export function isMobile() {
+    let isMobile = false
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        isMobile = true
+    }
+    return isMobile
+}
+
 export { renderIcon }

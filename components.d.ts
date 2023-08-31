@@ -36,7 +36,6 @@ declare module '@vue/runtime-core' {
     NRadioGroup: typeof import('naive-ui')['NRadioGroup']
     NSkeleton: typeof import('naive-ui')['NSkeleton']
     NSpace: typeof import('naive-ui')['NSpace']
-    NSpin: typeof import('naive-ui')['NSpin']
     NStatistic: typeof import('naive-ui')['NStatistic']
     NTable: typeof import('./src/components/n-table/n-table.vue')['default']
     NTabPane: typeof import('naive-ui')['NTabPane']
@@ -45,5 +44,6 @@ declare module '@vue/runtime-core' {
     NTree: typeof import('naive-ui')['NTree']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VirtualList: typeof import('./src/components/virtual-list/index.vue')['default']
   }
 }

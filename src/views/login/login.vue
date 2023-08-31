@@ -1,5 +1,5 @@
 <template>
-    <div class="main flex-center">
+    <div class="main flex-center" ref="main">
         <div class="login-illu-box flex-center">
             <img class="login-illu" src="@/assets/img/login-blue-pc.png" alt="login-illustrations" />
         </div>
@@ -112,6 +112,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import * as pinia from '@/stores'
 import * as http from '@/api'
+import { isMobile } from '@/utils'
 
 let activeTab = ref('signin')
 let loginForm = reactive({
@@ -311,13 +312,23 @@ function onRegister() {
         }
     })
 }
+let main = ref()
+if (isMobile()) {
+    const convertStyle = () => {
+        main.value.style.height = `${window.innerHeight}px`;
+    }
+    onMounted(() => {
+        convertStyle()
+    })
+}
+
 </script>
 
 <style scoped>
 .main {
     gap: 2vw;
-    width: 100vw;
     height: 100vh;
+    width: 100vw;
     background-image: linear-gradient(135deg, #f5f7fa 0%, var(--main-color) 100%);
 }
 
@@ -361,7 +372,8 @@ function onRegister() {
 
 @media screen and (max-width: 1000px) {
     .main {
-        height: 85vh;
+        height: 100vh;
+        height: 100dvh;
     }
 
     .login-illu-box {

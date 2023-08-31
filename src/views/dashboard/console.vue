@@ -26,13 +26,12 @@
                 <div style="font-size:2rem;font-weight:400;border-bottom:1px solid #cccccc">日访问量</div>
                 <chartViews class=""></chartViews>
             </div>
-
+            <div @click="test(message)">test</div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import * as http from '@/api'
 import daySale from './dataPanel/day-sale.vue'
 import weekSale from './dataPanel/week-sale.vue'
 import monthSale from './dataPanel/month-sale.vue'
@@ -40,9 +39,17 @@ import seasonSale from './dataPanel/season-sale.vue'
 import yearSale from './dataPanel/year-sale.vue'
 import chartSale from './chart/chart-sale.vue'
 import chartViews from './chart/chart-views.vue'
-import { onMounted } from 'vue'
+import { ref, reactive } from 'vue'
+import type { Ref } from 'vue'
 
+let message: Array<Ref> = reactive([ref("123")])
 
+function test(message: Array<Ref>) {
+    message.forEach((item) => {
+        console.log(item, item.value)
+        item.value = "1234"
+    })
+}
 </script>
 
 <style scoped>
