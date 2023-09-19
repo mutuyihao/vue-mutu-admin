@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router'
 
 const token = localStorage.getItem('TOKEN')
   ? 'Bearer ' + localStorage.getItem('TOKEN')
@@ -34,7 +35,10 @@ function onSuccessResponse(res: any) {
   }
 }
 function onRejectedResponse(error: any) {
-  console.log(error)
+  if (error.response.status === 403) {
+    localStorage.removeItem('TOKEN')
+    router.push("/login")
+  }
   return Promise.reject(error)
 }
 instance.interceptors.request.use(onSuccessRequest, onRejectedRequest)

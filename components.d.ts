@@ -44,6 +44,5 @@ declare module '@vue/runtime-core' {
     NTree: typeof import('naive-ui')['NTree']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    VirtualList: typeof import('./src/components/virtual-list/index.vue')['default']
   }
 }
