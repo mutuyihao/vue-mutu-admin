@@ -35,7 +35,7 @@ function onSuccessResponse(res: any) {
   }
 }
 function onRejectedResponse(error: any) {
-  if (error.response.status === 403) {
+  if (error.response.status === 401) {
     localStorage.removeItem('TOKEN')
     router.push("/login")
   }
