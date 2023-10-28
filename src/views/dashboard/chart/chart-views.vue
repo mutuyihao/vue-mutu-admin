@@ -4,13 +4,13 @@
 
 <script setup lang="ts">
 import chart from '@/components/chart/chart.vue'
-import * as http from '@/api'
+import { getViews } from '@/api'
 import { ref } from 'vue'
 let xData = ref<string[]>([])
 let yData = ref<number[]>([])
 
 
-http.getViews(7).then(res1 => {
+getViews(7).then(res1 => {
   res1.data.forEach((element: any) => {
     xData.value.push(element.date)
     yData.value.push(element.views)

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { themeOverrides } from './theme'
 import { onMounted } from 'vue';
-import * as http from '@/api'
-onMounted(() => {
-    http.updateViews()
-})
+import { updateViews } from '@/api'
+
+updateViews()
+
 </script>
 
 <template>
