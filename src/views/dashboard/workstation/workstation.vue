@@ -88,7 +88,7 @@ watch(
 
 .work-main-card {
     padding: 0px 80px;
-    width: 100%;
+    width: 100vw;
     background: #1e62cfb3;
     overflow: hidden;
 }

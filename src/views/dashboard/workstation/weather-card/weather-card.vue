@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!loading" style="padding: 20px;">
+    <div v-if="!loading" style="max-height:320px;padding: 20px;">
         <n-skeleton text :repeat="2" :size="'large'" />
         <n-skeleton text style="width: 100%" />
         <n-skeleton text style="width: 60%" />
@@ -10,7 +10,6 @@
         <n-skeleton text style="width: 60%" />
         <n-skeleton text style="width: 60%" />
         <n-skeleton text style="width: 80%" />
-        <n-skeleton text style="width: 60%" />
         <n-skeleton text style="width: 60%" />
         <n-skeleton text style="width: 100%" />
     </div>
