@@ -68,3 +68,10 @@ pnpm build
 1. 分模块建立文件夹，建立同名路由表文件，编写路由信息
 2. 在 API 文件夹也是分模块建立 API 文件，编写 API
 3. 在 views 文件夹编写页面
+
+# 鸣谢 Thanks To
+感谢 JetBrains [OpenSourceSupport](https://www.jetbrains.com/community/opensource/#support) 所提供的支持 : )
+Thanks to JetBrains [OpenSourceSupport](https://www.jetbrains.com/community/opensource/#support) for the support : )
+<div align="center">
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" width="200" height="200"/>
+</div>
