@@ -70,8 +70,8 @@ pnpm build
 3. 在 views 文件夹编写页面
 
 # 鸣谢 Thanks To
-感谢 JetBrains [OpenSourceSupport](https://www.jetbrains.com/community/opensource/#support) 所提供的支持 : )
-Thanks to JetBrains [OpenSourceSupport](https://www.jetbrains.com/community/opensource/#support) for the support : )
+<div>感谢 JetBrains [OpenSourceSupport](https://www.jetbrains.com/community/opensource/#support) 所提供的支持 : )</div>
+<div>Thanks to JetBrains [OpenSourceSupport](https://www.jetbrains.com/community/opensource/#support) for the support : )</div>
 <div align="center">
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" width="200" height="200"/>
 </div>
