@@ -1,8 +1,9 @@
 interface Role {
   id: number
   name: string
-  description: string
-  type: string
+  description?: string
+  routes?: string[]
+  permissions?: string[]
   createdAt: string
   updatedAt: string
 }

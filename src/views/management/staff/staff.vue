@@ -11,14 +11,12 @@
     <staffCreateViewEdit @submitCallback="submitCallback" @cancelCallback="cancelCallback" :mask-closable="false"
         :action="action" :data="clickedRowInfo!" :role-list="roleList">
     </staffCreateViewEdit>
-    <editMenuPermission :user="clickedRowInfo!"></editMenuPermission>
+
 </template>
 
 <script setup lang="ts">
 import staffActions from './staff-actions.vue'
 import staffCreateViewEdit from './staff-create-view-edit.vue'
-import editMenuPermission from './edit-menu-permission.vue'
-
 import * as http from '@/api'
 import { onMounted, reactive, provide, h, ref } from 'vue'
 import nTable from '@/components/n-table/n-table.vue'
@@ -30,9 +28,7 @@ import * as key from '@/key'
 import type { Action } from './type'
 
 let isShowStaffCreateViewEdit = ref(false)
-let isShowEditMenuPermission = ref(false)
 provide(key.isShowStaffCreateViewEdit, isShowStaffCreateViewEdit)
-provide(key.isShowEditMenuPermission, isShowEditMenuPermission)
 let columns = [
     {
         key: 'actions',
@@ -51,7 +47,11 @@ let columns = [
     },
     {
         key: 'name',
-        title: '姓名'
+        title: '昵称'
+    },
+    {
+        key: 'username',
+        title: '账号'
     },
     {
         key: 'role.name',
@@ -73,22 +73,21 @@ let columns = [
     }
 ]
 
-let data: any = reactive({
+const data: any = reactive({
     tableData: []
 })
-let page = ref(1)
-let pageSize = ref(10)
-let itemCount = ref(15)
+const page = ref(1)
+const pageSize = ref(10)
+const itemCount = ref(0)
 function getStaffListData(currentStart?: number) {
     http
         .getStaffList({
-            populate: '*',
-            start: currentStart ? currentStart : 0,
-            limit: pageSize.value
+            skip: currentStart ? currentStart : 0,
+            take: pageSize.value
         })
         .then((res) => {
-            data.tableData = res.data
-            console.log(data, data.tableData)
+            data.tableData = res.data.data
+            itemCount.value = res.data.total
         })
 }
 function onPageChange(currentPage: number) {
@@ -99,7 +98,6 @@ onMounted(() => {
     getStaffListData()
 })
 
-let isShowModal = ref(false)
 let action = ref<Action>()
 let clickedRowInfo = ref<Staff>()
 function onDropdownSelect(key: Action, rowId: number) {
@@ -112,16 +110,14 @@ function onDropdownSelect(key: Action, rowId: number) {
         case 'edit':
             isShowStaffCreateViewEdit.value = true
             break
-        case 'editMenuPermission':
-            isShowEditMenuPermission.value = true
-            break
         case 'delete':
             window.$dialog.info({
                 title: '确认删除',
                 content: `你确定删除员工"${clickedRowInfo.value!.name}"吗?`,
                 positiveText: '确定',
                 onPositiveClick: () => {
-                    http.deleteStaff(clickedRowInfo.value!.id).then((res) => {
+                    http.deleteStaff(clickedRowInfo.value.id).then((res) => {
+                        if(res) window.$message.success('删除测试成功')
                         onPageChange(page.value)
                     })
                 },
@@ -140,7 +136,7 @@ function submitCallback() {
 const roleList = ref([])
 function getRoleListData() {
     http.getRoleList().then((res) => {
-        roleList.value = res.data.roles
+        roleList.value = res.data.data
     })
 }
 onMounted(() => {

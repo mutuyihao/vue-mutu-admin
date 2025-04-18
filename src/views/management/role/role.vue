@@ -33,7 +33,7 @@ import * as key from '@/key'
 let isShowRoleCreateEdit = ref(false)
 provide(key.isShowRoleCreateEdit, isShowRoleCreateEdit)
 
-let columns = [
+const columns = [
   {
     key: 'actions',
     title: '操作',
@@ -58,10 +58,6 @@ let columns = [
     title: '角色描述'
   },
   {
-    key: 'type',
-    title: '角色类型'
-  },
-  {
     key: 'createdAt',
     title: '创建日期',
     render: (rowData: Role) => {
@@ -77,22 +73,22 @@ let columns = [
   }
 ]
 
-let data: any = reactive<{ tableData: Role[] }>({
+const data: any = reactive<{ tableData: Role[] }>({
   tableData: []
 })
-let page = ref(1)
-let pageSize = ref(10)
-let itemCount = ref(null)
+const page = ref(1)
+const pageSize = ref(10)
+const itemCount = ref(null)
 
 const roleList = ref([])
 function getRoleListData(currentStart?: number) {
   let params = {
-    start: currentStart ? currentStart : 0,
-    limit: pageSize.value
+    skip: currentStart ? currentStart : 0,
+    take: pageSize.value
   }
   http.getRoleList(params).then((res) => {
-    data.tableData = res.data.roles
-    itemCount.value = res.data.count
+    data.tableData = res.data.data
+    itemCount.value = res.data.total
   })
 }
 onMounted(() => {
@@ -119,6 +115,9 @@ function onDropdownSelect(key: Action, rowId: any) {
       positiveText: "确定",
       onPositiveClick: () => {
         http.deleteRoleById(clickedRowInfo.value.id).then(res => {
+          if(res){
+            window.$message.success(`测试删除角色"${clickedRowInfo.value.name}"成功`)
+          }
           onPageChange(page.value)
         })
       },

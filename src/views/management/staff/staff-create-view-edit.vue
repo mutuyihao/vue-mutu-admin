@@ -19,10 +19,10 @@
         <n-form-item path="password" label="密码">
           <n-input v-model:value="staff.password" @keydown.enter.prevent />
         </n-form-item>
-        <n-form-item path="role.id" label="角色">
-          <n-radio-group v-model:value="staff.role.id">
+        <n-form-item path="roleId" label="角色">
+          <n-radio-group v-model:value="staff.roleId">
             <n-radio v-for="item in roleList" :value="item.id">{{
-              item.type
+              item.name
             }}</n-radio>
           </n-radio-group>
         </n-form-item>
@@ -32,30 +32,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, inject } from 'vue'
+import { ref, watch, inject, reactive } from 'vue'
 import type { Action, Staff } from './type'
 import type { FormInst } from 'naive-ui'
 import * as http from '@/api'
 import * as key from '@/key'
-import { AtCircleOutline } from '@vicons/ionicons5'
-import { Model, number } from 'echarts'
-let isShow = inject(key.isShowStaffCreateViewEdit)
+const isShow = inject(key.isShowStaffCreateViewEdit)
 
-let props = defineProps<{
+const props = defineProps<{
   action: Action
   data: Staff
   roleList: any[]
 }>()
-let staff = ref({
+const staff = ref({
   name: '',
   username: '',
   password: '12345678',
   email: '',
-  role: {
-    id: 0
-  }
+  roleId:0
 })
-let rules: any = {
+const rules: any = {
   name: {
     required: true,
     message: '请输入员工姓名',
@@ -76,13 +72,11 @@ let rules: any = {
     message: '请输入员工邮箱',
     trigger: 'blur'
   },
-  role: {
-    id: {
-      type: 'number',
-      required: true,
-      message: '请选择员工角色',
-      trigger: 'change'
-    }
+  roleId: {
+    type: 'number',
+    required: true,
+    message: '请选择员工角色',
+    trigger: 'change'
   },
 }
 
@@ -95,9 +89,7 @@ watch(
         username: '',
         password: '12345678',
         email: '',
-        role: {
-          id: 0
-        }
+        roleId:0
       }
     } else {
       if (props.action == 'create') {
@@ -116,26 +108,32 @@ async function submitCallback() {
   await formRef.value?.validate(async (errors) => {
     if (!errors) {
       let data: any = staff.value
-      data.role = staff.value.role.id
+      data.roleId = staff.value.roleId
       switch (props.action) {
         case 'create':
-
-          let createdUser = (await http.createStaff(staff.value)).data
           http
-            .updateStaffRoleById({
-              userId: createdUser.id,
-              roleId: staff.value.role.id
+            .createStaff({
+              ...staff.value
             })
             .then((res) => {
+              if (res) {
               window.$message.success(`创建新员工:${staff.value.name}成功`)
+              }
+            }).finally(() => {
+              emit('submitCallback')
             })
           break
         case 'edit':
-          let updatedUser = (await http.updateStaff(props.data.id, data)).data
-          window.$message.success(`修改员工成功`)
+          http.updateStaff(props.data.id, data).then((res) => {
+            if (res) {
+              window.$message.success(`修改员工:${staff.value.name}成功`)
+            }
+          }).finally(() => {
+              emit('submitCallback')
+            })
           break
       }
-      emit('submitCallback')
+      
     }
   })
 }

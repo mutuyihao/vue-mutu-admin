@@ -1,5 +1,4 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue","src/*.d.ts"],
   "exclude": ["node_modules","dist",],
   "compilerOptions": {
@@ -7,6 +6,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "lib": ["es6", "es2018", "dom"],
     "types": ["naive-ui/volar"],
     "module": "ESNext",
     "moduleResolution": "node",

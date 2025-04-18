@@ -8,8 +8,6 @@ import {
   onUnmounted,
   watch,
   onMounted,
-  reactive,
-  onBeforeUnmount
 } from 'vue'
 import * as echarts from 'echarts'
 import { option, chartTypeList } from './index'
@@ -42,12 +40,12 @@ onMounted(() => {
   })
 })
 onUnmounted(() => {
-  // if (myChart) {
-  //   myChart?.dispose()
-  //   window.removeEventListener('resize', function () {
-  //     myChart!.resize()
-  //   })
-  // }
+  if (myChart) {
+    myChart?.dispose()
+    window.removeEventListener('resize', function () {
+      myChart!.resize()
+    })
+  }
 })
 </script>
 

@@ -5,24 +5,25 @@ interface UserListParams extends PaginationOffsetParams { }
 
 
 export async function getRoleList(params?: any) {
-  return instance.get('/users-permissions/roles', { "params": params })
+  return instance.get('/role', { "params": params })
 }
 
 type Role = {
   "name": string,
-  "description": string,
-  "permissions"?: Object
+  "description"?: string,
+  "routes"?: string[],
+  "permissions"?: string[],
 }
 // 新建角色
 export async function createRole(data: Role) {
-  return instance.post('/users-permissions/roles', data)
+  return instance.post('/role', data)
 }
 // 更新角色
 export async function updateRoleById(roleId: number, data: Role) {
-  return instance.put(`/users-permissions/roles/${roleId}`, data)
+  return instance.patch(`/role/${roleId}`, data)
 }
 // 删除角色
 export async function deleteRoleById(roleId: number) {
-  return instance.delete(`/users-permissions/roles/${roleId}`)
+  return instance.delete(`/role/${roleId}`)
 }
 

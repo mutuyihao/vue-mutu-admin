@@ -11,7 +11,9 @@ const routes: RouteRecordRaw[] = [
         redirect: '/management/role',
         meta: {
             title: '管理中心',
-            icon: () => renderIcon(SettingOutlined)
+            icon: () => renderIcon(SettingOutlined),
+            requiresAuth: true,
+            auth: "management"
         },
         children: [
             {
@@ -19,8 +21,9 @@ const routes: RouteRecordRaw[] = [
                 path: '/management/role',
                 component: () => import('@/views/management/role/role.vue'),
                 meta: {
-                    auth: true,
-                    title: '角色管理'
+                    title: '角色管理',
+                    requiresAuth: true,
+                    auth: "management:role"
                 }
             },
             {
@@ -28,19 +31,11 @@ const routes: RouteRecordRaw[] = [
                 path: '/management/staff',
                 component: () => import('@/views/management/staff/staff.vue'),
                 meta: {
-                    auth: true,
-                    title: '员工管理'
+                    title: '员工管理',
+                    requiresAuth: true,
+                    auth: "management:staff"
                 }
             },
-            {
-                name: 'menu',
-                path: '/management/menu',
-                component: () => import('@/views/management/menu/menu.vue'),
-                meta: {
-                    auth: true,
-                    title: '菜单管理'
-                }
-            }
         ]
     }
 ]

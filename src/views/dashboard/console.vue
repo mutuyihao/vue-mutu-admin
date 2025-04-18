@@ -21,10 +21,18 @@
             <chartSale class="chart-card-item"></chartSale>
             <chartSale class="chart-card-item"></chartSale>
         </div>
-        <div>
-            <div style="height: 44vh" class="flex-column-center chart-card-main chart-card-item">
-                <div style="font-size:2rem;font-weight:400;border-bottom:1px solid #cccccc">日访问量</div>
+        <div class="flex chart-card-main" style="height: 40vh">
+            <div class="flex-column chart-card-item " style="height: 44vh">
+                <div class="visit-header">
+                    <div class="visitChartTitle">日访问量</div>
+                </div>
                 <chartViews></chartViews>
+            </div>
+            <div class="flex-column chart-card-item " style="height: 44vh">
+                <div class="visit-header">
+                    <div class="visitChartTitle">月访问量</div>
+                </div>
+                <chartViewsMonth></chartViewsMonth>
             </div>
         </div>
     </div>
@@ -38,8 +46,7 @@ import seasonSale from './dataPanel/season-sale.vue'
 import yearSale from './dataPanel/year-sale.vue'
 import chartSale from './chart/chart-sale.vue'
 import chartViews from './chart/chart-views.vue'
-
-
+import chartViewsMonth from './chart/chart-views-month.vue'
 </script>
 
 <style scoped>
@@ -59,6 +66,22 @@ import chartViews from './chart/chart-views.vue'
     background: white;
     border-radius: 10px;
     box-shadow: 5px 5px 10px #cccccc;
+    width: 100%;
+}
+
+.visitChartTitle {
+    align-self: center;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.visit-header {
+    padding: 0.6rem 0.8rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.5rem;
 }
 
 @media screen and (max-width: 800px) {
@@ -76,7 +99,23 @@ import chartViews from './chart/chart-views.vue'
     }
 
     .chart-card-item {
-        flex-direction: row;
+        flex-direction: column;
+        width: 100vw;
+    }
+
+    .m-chart {
+        width: 100vw;
+    }
+
+    .visitChartTitle {
+        align-self: center;
+        font-size: 1.2rem;
+        font-weight: 400;
+        border-bottom: 1px solid #cccccc
     }
 }
 </style>
+
+function ref(arg0: number) {
+  throw new Error('Function not implemented.')
+}

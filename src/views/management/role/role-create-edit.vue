@@ -13,21 +13,23 @@
       <n-form-item path="description" label="角色描述">
         <n-input type="textarea" v-model:value="model.description" @keydown.enter.prevent />
       </n-form-item>
-      <!-- <n-form-item path="permissions" label="角色权限">
-        <n-input v-model:value="model.permissions" @keydown.enter.prevent />
-      </n-form-item> -->
+      <n-form-item path="permissions" label="角色权限">
+        <n-tree block-line :data="defaultRoutes" :default-expanded-keys="defaultExpandKeys" :default-checked-keys="defaultCheckedKeys" expand-on-click checkable
+          cascade @update:checked-keys="handleCheck" />
+      </n-form-item>
     </n-form>
   </n-modal>
 </template>
 
 <script setup lang="ts">
-import { watch, ref, toRef, inject, reactive } from 'vue'
+import { watch, ref, inject, reactive} from 'vue'
 import type { Role, Action } from './type'
 import * as http from '@/api'
 import * as key from '@/key'
 import type { FormInst } from 'naive-ui'
-import { WindowsFilled } from '@vicons/antd'
-
+import { dynamicRoutes } from '@/router'
+import * as pinia from '@/stores'
+import { storeToRefs } from 'pinia'
 let isShow = inject(key.isShowRoleCreateEdit)
 
 let props = withDefaults(
@@ -46,18 +48,22 @@ let rules = {
     trigger: 'blur'
   }
 }
-let checkedRole = ref()
 let model = reactive({
   name: '',
   description: '',
-  // permissions: {}
 })
+
 watch(
   () => props.data,
   (newValue) => {
     // console.log(newValue)
     if (props.data && props.action == 'editRole') {
       Object.assign(model, newValue)
+      defaultCheckedKeys.value =  processDefaultRoutes(props.data.routes)
+      checkedRoutes.value =  defaultCheckedKeys.value
+      defaultExpandKeys.value = defaultCheckedKeys.value.filter((item) => {
+        return item.indexOf(':')<0
+      })
     }
   },
   { deep: true, immediate: true }
@@ -69,7 +75,9 @@ watch(
       model = reactive({
         name: '',
         description: '',
-        // permissions: {}
+      })
+      defaultExpandKeys.value = defaultRoutes.map((item) => {
+        return item.key
       })
     }
   },
@@ -87,24 +95,52 @@ async function submit() {
   formRef.value?.validate((errors) => {
     if (!errors) {
       if (props.action == 'createRole') {
-        http.createRole(model).then((res) => {
-          if (res.data.ok) {
+        http.createRole({...model,routes:checkedRoutes.value}).then((res) => {
+          if (res) {
             window.$message.success('创建成功')
           }
+        }).finally(() => {
+          emit('submitCallback')
         })
       }
       if (props.action == 'editRole') {
-        http.updateRoleById(props.data.id, model).then((res) => {
-          if (res.data.ok) {
+        http.updateRoleById(props.data.id, {...model}).then((res) => {
+          if (res) {
             window.$message.success('修改成功')
           }
+        }).finally(() => {
+          emit('submitCallback')
         })
       }
-      // http.updateRoleById()
-      emit('submitCallback')
     }
   })
 }
+const userStore = pinia.useAccountStore()
+const { user } = storeToRefs(userStore)
+const defaultCheckedKeys = ref<string[]>([])
+function processDefaultRoutes(routes: any[]) {
+  return routes.map((item) => {
+    return item.name
+  })
+}
+const checkedRoutes = ref<string[]>([])
+function handleCheck(keys: string[]) {
+  checkedRoutes.value = keys
+}
+const defaultExpandKeys = ref<string[]>([])
+// 动态路由转树形结构
+const defaultRoutes = generateRoutesTree(dynamicRoutes)
+function generateRoutesTree(routes: any[]) {
+  return routes.map((item) => {
+    return {
+      label: item.meta.title,
+      key: item.meta.auth,
+      children: item.children?.length ? generateRoutesTree(item.children) : null,
+      leaf: item.children?.length ? false : true
+    }
+  })
+}
+
 </script>
 
 <style scoped></style>

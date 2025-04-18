@@ -18,10 +18,6 @@ const options = [
     key: 'edit'
   },
   {
-    label: '菜单权限',
-    key: 'editMenuPermission'
-  },
-  {
     label: '删除',
     key: "delete"
   }

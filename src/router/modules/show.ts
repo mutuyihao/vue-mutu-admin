@@ -9,7 +9,9 @@ const routes: RouteRecordRaw[] = [{
     redirect: "/show/table",
     meta: {
         title: "展示页",
-        icon: () => renderIcon(BrushOutline)
+        icon: () => renderIcon(BrushOutline),
+        requiresAuth: true,
+        auth: "show"
     },
     children: [{
         name: "table",
@@ -17,7 +19,8 @@ const routes: RouteRecordRaw[] = [{
         component: () => import("@/views/show/table.vue"),
         meta: {
             title: "展示表格",
-            auth: true,
+            requiresAuth: true,
+            auth: "show:table"
         },
     }]
 }]

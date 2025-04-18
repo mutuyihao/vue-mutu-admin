@@ -1,9 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
 
-const token = localStorage.getItem('TOKEN')
-  ? 'Bearer ' + localStorage.getItem('TOKEN')
-  : null
 const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
@@ -29,19 +26,20 @@ function onSuccessResponse(res: any) {
     return res
   } else {
     console.log('api错误,返回内容', res)
-
     window.$message.error("————api错误,返回内容————" + res)
     return res
   }
 }
 function onRejectedResponse(error: any) {
+  console.log('Reject', error)
   if (error.response.status === 401) {
     localStorage.removeItem('TOKEN')
     router.push("/login")
+  } else {
+    window.$message.error("————api错误,返回内容————" + error.response.data.message)
   }
   return Promise.reject(error)
 }
 instance.interceptors.request.use(onSuccessRequest, onRejectedRequest)
 instance.interceptors.response.use(onSuccessResponse, onRejectedResponse)
-
 export default instance

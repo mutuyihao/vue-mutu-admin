@@ -9,3 +9,6 @@ export async function updateViews() {
 export async function getViews(days: number) {
     return instance.get(`/website/views/${days}`)
 }
+export async function getMonthViews(months: number) {
+    return instance.get(`/website/monthViews/${months}`)
+}

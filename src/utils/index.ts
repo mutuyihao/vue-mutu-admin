@@ -2,8 +2,12 @@ import { h } from 'vue'
 import { iconDark, NIcon } from 'naive-ui'
 import type { Component } from 'vue'
 import dayjs from 'dayjs'
-function renderIcon(icon: Component) {
-    return h(NIcon, h(icon))
+function renderIcon(icon: Component, attributes?: any) {
+    if (attributes) {
+        return h(NIcon, { ...attributes }, h(icon))
+    } else {
+        return h(NIcon, h(icon))
+    }
 }
 export function formatterTime(timeString: string) {
     let time = dayjs(timeString).format("YYYY-MM-DD")

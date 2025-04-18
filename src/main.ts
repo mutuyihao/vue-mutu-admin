@@ -8,6 +8,7 @@ import '@/assets/css/main.css'
 // import 'vfonts/Lato.css'
 // // 引入等宽字体
 // import 'vfonts/FiraCode.css'
+import './index.css'
 import App from './App.vue'
 import router from './router'
 import { registerDiscreteApi } from '@/plugin/inform'

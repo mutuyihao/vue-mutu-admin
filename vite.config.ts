@@ -6,7 +6,6 @@ import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import removeConsole from "vite-plugin-remove-console";
 import viteCompression from "vite-plugin-compression"
-
 // https://vitejs.dev/config/
 export default defineConfig({
   // build: {

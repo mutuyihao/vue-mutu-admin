@@ -1,5 +1,5 @@
 import layout from '@/layout/layout.vue'
-import {AlertCircleOutline} from '@vicons/ionicons5'
+import { AlertCircleOutline } from '@vicons/ionicons5'
 import { renderIcon } from '@/utils'
 import type { RouteRecordRaw } from 'vue-router'
 const systemRoutes: RouteRecordRaw[] = [
@@ -16,7 +16,7 @@ const systemRoutes: RouteRecordRaw[] = [
     {
         name: 'login',
         path: '/login',
-        component: () => import('@/views/login/login.vue'),
+        component: () => import('@/views/login/index.vue'),
         meta: {
             title: "登录"
         }
@@ -30,7 +30,7 @@ const specialRoutes: RouteRecordRaw[] = [
         redirect: '/404',
         meta: {
             title: "异常页面",
-            icon:()=>renderIcon(AlertCircleOutline)
+            icon: () => renderIcon(AlertCircleOutline)
         },
         children: [
             {

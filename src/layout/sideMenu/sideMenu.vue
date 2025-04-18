@@ -1,7 +1,7 @@
 <template>
     <div>
-        <img v-show="!collapsed" @click="$router.push('/dashboard')" class="logo-side pretendBtn" width="150" height="23.11"
-            src="@/assets/img/logo-side.png" alt="logo" />
+        <img v-show="!collapsed" @click="$router.push('/dashboard')" class="logo-side pretendBtn" width="150"
+            height="23.11" src="@/assets/img/logo-side.png" alt="logo" />
         <!-- :value="'console'" :expanded-keys="openKey" -->
         <img class="logo-collapse logo-side pretendBtn" v-show="collapsed" width="24" height="24"
             src="@/assets/img/logo-single.png" alt="logo" />
@@ -11,19 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, h, onMounted, ref, watch } from 'vue'
-import { dynamicRoutes, systemRoutes, specialRoutes } from '@/router'
+import { ref, watch } from 'vue'
 import {
-    type RouteRecordRaw,
-    type RouteRecordName,
-    RouterLink,
     useRoute
 } from 'vue-router'
-import type { MenuOption } from 'naive-ui'
 import * as pinia from '@/stores'
 defineProps<{ collapsed: boolean }>()
 let openKey = ['dashboard', 'console']
-// let routes = dynamicRoutes
 let route = useRoute()
 
 let selectedKey = ref(route.meta.title as string)

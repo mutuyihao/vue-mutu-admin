@@ -13,7 +13,7 @@ html body{
     font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .flex{
-        display:flex;
+    display:flex;
     flex-direction: row;
 }
 .flex-column{
@@ -46,4 +46,7 @@ html body{
 }
 .pretendBtn{
     cursor: pointer;
+}
+.flex1{
+    flex:1
 }

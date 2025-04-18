@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw, RouteRecordName } from 'vue-router'
 
 import { systemRoutes, specialRoutes } from './system'
-import layout from '@/layout/layout.vue'
 import * as pinia from '@/stores'
 import NProgress from 'nprogress'
 import '@/assets/css/nprogress.css'
@@ -57,10 +56,10 @@ router.beforeEach((to, from, next) => {
         return
     }
     if (!isAddDynamicRoutes) {
-        dynamicRoutes.map((item) => {
+        dynamicRoutes.forEach((item) => {
             filterDynamicRoutes(item)
         })
-        specialRoutes.map((item) => {
+        specialRoutes.forEach((item) => {
             router.addRoute(item)
         })
         isAddDynamicRoutes = true
@@ -71,20 +70,9 @@ router.beforeEach((to, from, next) => {
         next()
         return   // return false
     }
-    // function isRouteAuth(route: any) {
-    //     Object.keys(menu!).forEach(item => {
-    //         if (route.meta.title == item) {
-    //             return true
-    //         } else {
-    //             return false
-    //         }
-    //     })
-    // }
-    let user = JSON.parse(localStorage.getItem('USER')!)
-    let { menu } = user
-    if (to.meta.auth && !menu[to.meta.title + ""]) {
-        next("/dashboard/console")
-        window.$dialog.error({ title: "前方的页面以后再来探索吧~" })
+    if (to.meta.requiresAuth && checkIfUserHasRoute(to.meta.auth as string) === false) {
+        next("special/403")
+        window.$dialog.error({ title: "403", content: "无权访问" })
         return
     }
     NProgress.start()
@@ -98,3 +86,17 @@ router.afterEach(() => {
 export { dynamicRoutes, systemRoutes, specialRoutes }
 export default router
 
+export function checkIfUserHasRoute(routeKey: string) {
+    try {
+        const user = pinia.useAccountStore().user
+        if (user.role.name === 'ADMIN') {
+            return true
+        }
+        if (Array.isArray(user.role.routes) && user.role.routes.find((item) => { item.name === routeKey })) {
+            return true
+        }
+        return false
+    } catch (error) {
+        return false
+    }
+}
