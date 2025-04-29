@@ -1,8 +1,9 @@
 export type Location = {
-    abcode: string,
-    bounds: any,
-    city: string,
-    gEa: string,
-    info: string,
-    province: string,
+  abcode: string
+  bounds: any
+  city: string
+  gEa: string
+  info: string
+  province: string
+  rectangle: string
 }

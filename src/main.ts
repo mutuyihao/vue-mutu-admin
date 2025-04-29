@@ -8,18 +8,22 @@ import '@/assets/css/main.css'
 // import 'vfonts/Lato.css'
 // // 引入等宽字体
 // import 'vfonts/FiraCode.css'
+import './index.css'
 import App from './App.vue'
-import router from './router'
-import { registerDiscreteApi } from '@/plugin/inform'
+import router from './router/index'
+import { registerDiscreteApi } from '@/plugin/inform/index'
+
 const app = createApp(App)
 
 app.use(createPinia())
+
 app.use(router)
+
 // app.config.warnHandler = function (msg, vm, trace) {
 //     return null
 //   }
 registerDiscreteApi()
+
 router.isReady().then(() => {
   app.mount('#app')
 })
-

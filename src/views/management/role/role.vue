@@ -1,14 +1,34 @@
 <template>
   <div style="float: right">
-    <n-button type="info" @click="isShowRoleCreateEdit = true; action = 'createRole'">新建角色</n-button>
+    <n-button
+      type="info"
+      @click="
+        () => {
+          isShowRoleCreateEdit = true
+          action = 'createRole'
+        }
+      "
+      >新建角色</n-button
+    >
   </div>
   <div style="height: 500px; margin-top: 40px">
-    <nTable :align="'center'" :columns="columns" :data="data.tableData" :item-count="itemCount" :pageSize="pageSize"
-      @update:page="onPageChange">
+    <nTable
+      :align="'center'"
+      :columns="columns"
+      :data="data.tableData"
+      :item-count="itemCount"
+      :pageSize="pageSize"
+      @update:page="onPageChange"
+    >
     </nTable>
   </div>
-  <roleCreateEdit @submitCallback="submitCallback" @cancelCallback="cancelCallback" :mask-closable="false"
-    :action="action" :data="clickedRowInfo">
+  <roleCreateEdit
+    @submitCallback="submitCallback"
+    @cancelCallback="cancelCallback"
+    :mask-closable="false"
+    :action="action"
+    :data="clickedRowInfo"
+  >
   </roleCreateEdit>
 </template>
 
@@ -16,13 +36,7 @@
 import roleCreateEdit from './role-create-edit.vue'
 import roleActions from './role-actions.vue'
 import * as http from '@/api'
-import {
-  onMounted,
-  reactive,
-  provide,
-  h,
-  ref,
-} from 'vue'
+import { onMounted, reactive, provide, h, ref } from 'vue'
 import nTable from '@/components/n-table/n-table.vue'
 import { NButton, NDropdown } from 'naive-ui'
 import type { Role, Action } from './type'
@@ -33,14 +47,18 @@ import * as key from '@/key'
 let isShowRoleCreateEdit = ref(false)
 provide(key.isShowRoleCreateEdit, isShowRoleCreateEdit)
 
-let columns = [
+const columns = [
   {
     key: 'actions',
     title: '操作',
     render(row: any) {
       return h(
         roleActions,
-        { rowId: row.id, onDropdownSelect: onDropdownSelect },
+        {
+          rowId: row.id,
+          onDropdownSelect: onDropdownSelect,
+          disabled: row.name === 'ADMIN'
+        },
         () => '编辑'
       )
     }
@@ -58,10 +76,6 @@ let columns = [
     title: '角色描述'
   },
   {
-    key: 'type',
-    title: '角色类型'
-  },
-  {
     key: 'createdAt',
     title: '创建日期',
     render: (rowData: Role) => {
@@ -77,22 +91,22 @@ let columns = [
   }
 ]
 
-let data: any = reactive<{ tableData: Role[] }>({
+const data: any = reactive<{ tableData: Role[] }>({
   tableData: []
 })
-let page = ref(1)
-let pageSize = ref(10)
-let itemCount = ref(null)
+const page = ref(1)
+const pageSize = ref(10)
+const itemCount = ref(0)
 
 const roleList = ref([])
 function getRoleListData(currentStart?: number) {
   let params = {
-    start: currentStart ? currentStart : 0,
-    limit: pageSize.value
+    skip: currentStart ? currentStart : 0,
+    take: pageSize.value
   }
   http.getRoleList(params).then((res) => {
-    data.tableData = res.data.roles
-    itemCount.value = res.data.count
+    data.tableData = res.data.data
+    itemCount.value = res.data.total
   })
 }
 onMounted(() => {
@@ -107,7 +121,9 @@ let clickedRowInfo = ref()
 let isShowRoleDelete = ref(false)
 function onDropdownSelect(key: Action, rowId: any) {
   action.value = key
-  clickedRowInfo.value = data.tableData.find((e: Role) => e.id == rowId)
+  clickedRowInfo.value = data.tableData.find(
+    (e: Role) => e.id == rowId
+  )
   if (key == 'editRole') {
     isShowRoleCreateEdit.value = true
   }
@@ -116,20 +132,26 @@ function onDropdownSelect(key: Action, rowId: any) {
     window.$dialog.info({
       title: '确认删除',
       content: `你确定删除角色"${clickedRowInfo.value.name}"吗?`,
-      positiveText: "确定",
+      positiveText: '确定',
       onPositiveClick: () => {
-        http.deleteRoleById(clickedRowInfo.value.id).then(res => {
-          onPageChange(page.value)
-        })
+        http
+          .deleteRoleById(clickedRowInfo.value.id)
+          .then((res) => {
+            if (res) {
+              window.$message.success(
+                `测试删除角色"${clickedRowInfo.value.name}"成功`
+              )
+            }
+            onPageChange(page.value)
+          })
       },
-      negativeText: "取消",
-      onNegativeClick: () => { },
-      negativeButtonProps: { type: "info", }
+      negativeText: '取消',
+      onNegativeClick: () => {},
+      negativeButtonProps: { type: 'info' }
     })
   }
 }
-function cancelCallback() {
-}
+function cancelCallback() {}
 function submitCallback() {
   onPageChange(page.value)
 }

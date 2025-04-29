@@ -4,13 +4,13 @@
 
 <script setup lang="ts">
 import chart from '@/components/chart/chart.vue'
-import { getViews } from '@/api'
+import { getMonthViews } from '@/api'
 import { ref } from 'vue'
 let xData = ref<string[]>([])
 let yData = ref<number[]>([])
 
 
-getViews(7).then(res1 => {
+getMonthViews(6).then(res1 => {
   res1.data.forEach((element: any) => {
     xData.value.push(element.date)
     yData.value.push(element.views)
@@ -18,17 +18,17 @@ getViews(7).then(res1 => {
 })
 
 let option = ref({
+  tooltip: {
+    trigger: 'axis'
+  },
   xAxis: {
     type: 'category',
     data: xData,
     name: "时间"
   },
-  tooltip: {
-    trigger: 'axis',
-  },
   yAxis: {
     type: 'value',
-    name: "日访问量",
+    name: "月访问量",
     minInterval: 1
   },
   series: [
@@ -36,11 +36,7 @@ let option = ref({
       data: yData,
       type: 'line',
       smooth: true,
-      areaStyle: {
-        label: {
-          show: true
-        }
-      }
+      areaStyle: {}
     }
   ]
 })

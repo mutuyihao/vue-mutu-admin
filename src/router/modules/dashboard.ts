@@ -10,21 +10,27 @@ const routes: RouteRecordRaw[] = [{
     redirect: "/dashboard/console",
     meta: {
         title: "Dashboard",
-        icon: () => renderIcon(DashboardOutlined)
+        icon: () => renderIcon(DashboardOutlined),
+        requiresAuth: true,
+        auth: "dashboard"
     },
     children: [{
         name: "console",
         path: "console",
         component: console,
         meta: {
-            title: "主控台"
+            title: "主控台",
+            requiresAuth: true,
+            auth: "dashboard:console"
         },
     }, {
         name: "workstation",
         path: "/dashboard/workstation",
         component: () => import("@/views/dashboard/workstation/workstation.vue"),
         meta: {
-            title: "工作台"
+            title: "工作台",
+            requiresAuth: true,
+            auth: "dashboard:workstation"
         },
     }]
 }]

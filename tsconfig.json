@@ -1,19 +1,31 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue","src/*.d.ts"],
-  "exclude": ["node_modules","dist",],
+  "include": ["env.d.ts", "src"],
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
+    "lib": ["esnext", "dom"],
     "types": ["naive-ui/volar"],
     "module": "ESNext",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "ignoreDeprecations": "5.0",
-    "allowSyntheticDefaultImports":true,
-  },
+    // 开启类型检查相关
+    "strict": true,                       // 开启所有严格模式（推荐）
+    "noImplicitAny": true,                // 禁止隐式 any 类型
+    "strictNullChecks": true,             // 严格的 null 检查
+    "strictFunctionTypes": true,          // 严格函数类型检查
+    "strictBindCallApply": true,          // 严格 bind/call/apply
+    "noImplicitThis": true,               // 禁止隐式 this
+    "alwaysStrict": true,                 // 始终启用严格模式
 
+    "noEmit": true,                       // 不输出编译结果，只做类型检查
+    "skipLibCheck": true,                // 跳过对库文件的类型检查
+    "forceConsistentCasingInFileNames": true // 强制文件名大小写一致
+  },
   "references": [
     {
       "path": "./tsconfig.node.json"

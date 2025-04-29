@@ -4,14 +4,11 @@ interface MyObject {
 interface Staff {
   id: number
   name: string
-  menu: MyObject
   username: string
   email: string
-  provider: string
-  confirmed: boolean
-  blocked: boolean
   createdAt: string
   updatedAt: string
+  roleId: number
   role: {
     id: number
     name: string

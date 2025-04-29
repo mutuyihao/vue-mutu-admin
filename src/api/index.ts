@@ -1,8 +1,7 @@
 import instance from '@/utils/request'
 export interface PaginationOffsetParams {
-  populate?: any,
-  start: number
-  limit: number
+  skip: number
+  take: number
 }
 export async function getData(url: string) {
   try {
@@ -16,5 +15,6 @@ export * from './staff'
 export * from './role'
 export * from './account'
 export * from './website'
+export * from './conversation'
 
 
