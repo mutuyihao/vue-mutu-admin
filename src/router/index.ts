@@ -117,7 +117,7 @@ export function checkIfUserHasRoute(routeKey: string) {
     if (
       Array.isArray(user?.role.routes) &&
       user?.role.routes.find((item) => {
-        item.name === routeKey
+        return item.name === routeKey
       })
     ) {
       return true

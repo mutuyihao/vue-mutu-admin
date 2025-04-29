@@ -16,7 +16,7 @@ export const useMenuStore = defineStore('menu', () => {
   function filterRoutes(
     routes: RouteRecordRaw[],
     type?: string
-  ): any {
+  ): MenuOption[] {
     return routes.map((item: any) => {
       const menuItem: MenuOption = {
         label: item.meta?.title,
@@ -27,11 +27,12 @@ export const useMenuStore = defineStore('menu', () => {
       if (type == 'child') {
         if (
           !!item.meta?.requiresAuth &&
-          checkIfUserHasRoute(item.name) === false
+          checkIfUserHasRoute(item.meta.auth) === false
         ) {
           return { delete: true }
         }
         delete menuItem.children
+
         menuItem.label = () => {
           return h(
             RouterLink,
@@ -50,7 +51,14 @@ export const useMenuStore = defineStore('menu', () => {
     })
   }
   let menuOptions = filterRoutes(
-    routes.filter((item) => item.children!.length > 0)
+    routes.filter((item) => {
+      if (!item?.meta?.requiresAuth) {
+        return item.children!.length > 0
+      }
+      if (checkIfUserHasRoute(item.meta.auth as string)) {
+        return item.children!.length > 0
+      }
+    })
   )
   return { menuOptions }
 })

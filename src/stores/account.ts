@@ -19,7 +19,9 @@ type Role = {
   id: number
   name: string
   description: string
-  routes: any
+  routes: {
+    name: string
+  }[]
   permissions: any
   createdAt: string
   updatedAt: string
