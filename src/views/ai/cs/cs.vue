@@ -69,7 +69,7 @@
       <div v-if="isCollapsed" class="h-8"></div>
       <!-- 会话历史 -->
       <div
-        class="h-full w-full max-h-[calc(100%-2rem)] overflow-y-scroll z-[99999]"
+        class="h-full w-full max-h-[calc(100%-2rem)] overflow-y-scroll z-[9999]"
         id="conversationContainer"
       >
         <Conversations
@@ -337,14 +337,20 @@ async function submit() {
                 if (parsedData.id) {
                   activeConversation.value = parsedData
                 }
-                if (isAtBottom) {
-                  nextTick(() => {
-                    scrollToMessage(
-                      messageList[1]
-                        .id as unknown as string,
-                      'end'
-                    )
-                  })
+                console.log(
+                  !isUserScroll.value,
+                  isAtBottom.value
+                )
+                if (
+                  !isUserScroll.value &&
+                  isAtBottom.value
+                ) {
+                  scrollToMessage(
+                    messages.value[
+                      messages.value.length - 1
+                    ].id as unknown as string,
+                    'end'
+                  )
                 }
               } catch (error) {
                 break
@@ -400,14 +406,27 @@ function footerConfig(messageId: string) {
   ])
 }
 
-const messageContainer = ref<HTMLElement | null>(null)
-const isAtBottom = computed(() => {
-  return (
-    messageContainer.value!.scrollHeight -
-      messageContainer.value!.scrollTop <=
-    messageContainer.value!.clientHeight + 10
-  )
+const messageContainer = ref<HTMLElement | null>()
+const isAtBottom = ref(true)
+const isUserScroll = ref(false)
+watch(messageContainer, (el) => {
+  if (el) {
+    el.addEventListener('scroll', () => {
+      isAtBottom.value =
+        el.scrollHeight - el.scrollTop <=
+        el.clientHeight + 100
+    })
+  }
 })
+onMounted(() => {
+  window.addEventListener('wheel', () => {
+    isUserScroll.value = true
+    setTimeout(() => {
+      isUserScroll.value = false
+    }, 300)
+  })
+})
+// 清理副作用
 
 // 会话记录
 const conversationList = ref<initConversation[]>([])
@@ -589,6 +608,10 @@ const uploadAction = `${
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.ant-conversations-menu-icon:hover {
+  background-color: white;
+  border-radius: 0.25rem;
 }
 #conversationContainer::-webkit-scrollbar {
   opacity: 0.9;
