@@ -1,6 +1,7 @@
 # vue-mutu-admin
 
 文档仓库地址：[vue-mutu-admin-doc](https://github.com/mutuyihao/vue-mutu-admin-doc)
+后端库地址：[vue-mutu-admin-new-back](https://github.com/mutuyihao/vue-mutu-admin-new-back)
 
 # 介绍
 
@@ -70,6 +71,7 @@ pnpm build
 3. 在 views 文件夹编写页面
 
 # 鸣谢 Thanks To
+
 <div>感谢 JetBrains <a href="https://www.jetbrains.com/community/opensource/#support">OpenSourceSupport</a> 所提供的支持 : )</div>
 <div>Thanks to JetBrains <a href="https://www.jetbrains.com/community/opensource/#support">OpenSourceSupport</a> for the support : )</div>
 <div align="center">
