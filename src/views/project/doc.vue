@@ -1,6 +1,6 @@
 <template>
   <iframe
-    src="http://39.105.7.217/doc/doc"
+    src="http://43.161.214.12/doc/doc"
     frameborder="0"
     width="100%"
     height="100%"
