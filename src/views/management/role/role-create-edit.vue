@@ -129,34 +129,39 @@ function cancel() {
 async function submit() {
   // showModal.value = false
   formRef.value?.validate((errors) => {
-    if (!errors) {
-      if (props.action == 'createRole') {
-        http
-          .createRole({
-            ...model,
-            routes: checkedRoutes.value
-          })
-          .then((res) => {
-            if (res) {
-              window.$message.success('创建成功')
-            }
-          })
-          .finally(() => {
-            emit('submitCallback')
-          })
-      }
-      if (props.action == 'editRole') {
-        http
-          .updateRoleById(props.data.id, { ...model })
-          .then((res) => {
-            if (res) {
-              window.$message.success('修改成功')
-            }
-          })
-          .finally(() => {
-            emit('submitCallback')
-          })
-      }
+    if (errors) {
+      window.$message.error('出现错误，请检查表单信息。')
+      return
+    }
+    if (props.action == 'createRole') {
+      http
+        .createRole({
+          ...model,
+          routes: checkedRoutes.value
+        })
+        .then((res) => {
+          if (res) {
+            window.$message.success('创建成功')
+          }
+        })
+        .finally(() => {
+          emit('submitCallback')
+        })
+    }
+    if (props.action == 'editRole') {
+      http
+        .updateRoleById(props.data.id, {
+          ...model,
+          routes: checkedRoutes.value
+        })
+        .then((res) => {
+          if (res) {
+            window.$message.success('修改成功')
+          }
+        })
+        .finally(() => {
+          emit('submitCallback')
+        })
     }
   })
 }
