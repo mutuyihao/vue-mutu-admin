@@ -233,7 +233,9 @@ import {
   computed,
   h,
   nextTick,
+  onBeforeUnmount,
   onMounted,
+  onWatcherCleanup,
   ref,
   watch
 } from 'vue'
@@ -410,24 +412,34 @@ const messageContainer = ref<HTMLElement | null>()
 const isAtBottom = ref(true)
 const isUserScroll = ref(false)
 watch(messageContainer, (el) => {
-  if (el) {
-    el.addEventListener('scroll', () => {
-      isAtBottom.value =
-        el.scrollHeight - el.scrollTop <=
-        el.clientHeight + 100
-    })
+  const handleScroll = () => {
+    const el = messageContainer.value
+    if (!el) return
+    isAtBottom.value =
+      el.scrollHeight - el.scrollTop <=
+      el.clientHeight + 100
   }
+  if (el) {
+    el.addEventListener('scroll', handleScroll)
+  }
+  onWatcherCleanup(() => {
+    if (el) {
+      el.removeEventListener('scroll', handleScroll)
+    }
+  })
 })
 onMounted(() => {
-  window.addEventListener('wheel', () => {
+  const handleWheel = () => {
     isUserScroll.value = true
     setTimeout(() => {
       isUserScroll.value = false
     }, 300)
-  })
+  }
+  window.addEventListener('wheel', handleWheel)
 })
-// 清理副作用
-
+onBeforeUnmount(() => {
+  window.removeEventListener('wheel', () => {})
+})
 // 会话记录
 const conversationList = ref<initConversation[]>([])
 function fetchData() {
