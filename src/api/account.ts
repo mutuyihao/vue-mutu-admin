@@ -1,18 +1,20 @@
 import instance from '@/utils/request'
 export interface RegisterParams {
-    username: string,
-    email: string,
-    password: string
+  username: string
+  email: string
+  password: string
 }
 export interface LoginBody {
-    username: string,
-    password: string
+  username: string
+  password: string
 }
 
 export async function register(params: RegisterParams) {
-    return instance.post("auth/local/register", params)
+  return instance.post('auth/register', params)
 }
 
 export async function login(body: LoginBody) {
-    return instance.post("auth/login", body, { headers: { "Authorization": "" } })
+  return instance.post('auth/login', body, {
+    headers: { Authorization: '' }
+  })
 }
